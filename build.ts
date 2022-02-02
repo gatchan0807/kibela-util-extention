@@ -62,6 +62,13 @@ const buildExtension = async (targetBrowser: Browser) => {
     watch: watchOption(targetBrowser),
     sourcemap: devFlag ? 'inline' : false,
   });
+  build({
+    entryPoints: ['contentScripts/contentScript.ts'],
+    bundle: true,
+    outdir: distPath('contentScripts', targetBrowser),
+    watch: watchOption(targetBrowser),
+    sourcemap: devFlag ? 'inline' : false,
+  });
 
   // copy static files
   if (watchFlag) {
