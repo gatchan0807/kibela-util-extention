@@ -1,0 +1,1 @@
+export { Settings as TargetBlankSettings } from "../features/target-blank";

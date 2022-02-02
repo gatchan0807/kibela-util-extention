@@ -1,5 +1,6 @@
 import React from 'react';
 import browser from 'webextension-polyfill';
+import * as SettingUI from './settings';
 
 export const Popup: React.VFC = () => {
   const handleClick = () => {
@@ -7,5 +8,11 @@ export const Popup: React.VFC = () => {
   };
 
   // a button to open example.com
-  return <button onClick={handleClick}>Button</button>;
+  return (
+    <div>
+      <SettingUI.TargetBlankSettings></SettingUI.TargetBlankSettings>
+      <hr />
+      <button onClick={handleClick}>Button</button>
+    </div>
+  )
 };
