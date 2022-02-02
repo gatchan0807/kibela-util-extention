@@ -56,14 +56,14 @@ const buildExtension = async (targetBrowser: Browser) => {
 
   // build tsx by esbuild
   build({
-    entryPoints: ['popup/index.tsx'],
+    entryPoints: ['src/popup/index.tsx'],
     bundle: true,
     outdir: distPath('popup', targetBrowser),
     watch: watchOption(targetBrowser),
     sourcemap: devFlag ? 'inline' : false,
   });
   build({
-    entryPoints: ['contentScripts/contentScript.ts'],
+    entryPoints: ['src/contentScripts/contentScript.ts'],
     bundle: true,
     outdir: distPath('contentScripts', targetBrowser),
     watch: watchOption(targetBrowser),
