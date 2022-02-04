@@ -1,3 +1,4 @@
+import { execSync } from 'child_process';
 import * as chokidar from 'chokidar';
 import { build, BuildOptions } from 'esbuild';
 import { promises as fs } from 'fs';
@@ -14,6 +15,7 @@ const watchOption = (targetBrowser: Browser): BuildOptions['watch'] =>
   watchFlag
     ? {
         onRebuild: (error, result) => {
+          execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
           if (error)
             console.error(`watch build failed for ${targetBrowser}: `, error);
           else
@@ -54,6 +56,9 @@ const buildExtension = async (targetBrowser: Browser) => {
   await fs.mkdir(distPath('popup', targetBrowser), { recursive: true });
   await fs.mkdir(distPath('icons', targetBrowser), { recursive: true });
 
+  // build tailwindcss
+  execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
+
   // build tsx by esbuild
   build({
     entryPoints: ['src/popup/index.tsx'],
@@ -72,7 +77,7 @@ const buildExtension = async (targetBrowser: Browser) => {
 
   // copy static files
   if (watchFlag) {
-    chokidar.watch('popup/popup.html').on('all', (event, path) => {
+    chokidar.watch('src/popup/popup.html').on('all', (event, path) => {
       console.log(event, path);
       fs.copyFile(path, distPath('popup/popup.html', targetBrowser));
     });
@@ -91,7 +96,7 @@ const buildExtension = async (targetBrowser: Browser) => {
     });
   } else {
     fs.copyFile(
-      'popup/popup.html',
+      'src/popup/popup.html',
       distPath('popup/popup.html', targetBrowser)
     );
     makeManifestFile(targetBrowser);
