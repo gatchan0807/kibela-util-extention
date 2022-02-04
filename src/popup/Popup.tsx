@@ -9,7 +9,7 @@ export const Popup: React.VFC = () => {
 
   // a button to open example.com
   return (
-    <div>
+    <div className='popup-wrapper'>
       <SettingUI.TargetBlankSettings></SettingUI.TargetBlankSettings>
       <hr />
       <button onClick={handleClick}>Button</button>
