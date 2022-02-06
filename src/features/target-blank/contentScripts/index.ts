@@ -5,11 +5,18 @@ export type DOMElement = {
     isSameSiteLink: boolean,
     isUserMention: boolean,
     isAnchorLink: boolean,
+    hasTargetBlank: boolean,
+    setTargetBlankAttribute: (e: Element) => void,
     rawElement: Element,
 }
 
 export const domElements: DOMElement[] = []
 const allATag = document.querySelectorAll(".markdown-body a[href]")
+const setTargetBlankAttribute = (element: Element) => {
+    element.setAttribute("target", "_blank")
+    element.setAttribute("rel", "noopener noreferrer")
+}
+
 allATag.forEach(e => {
     const className = e.getAttribute("class") ?? ""
     const isAnchorLink = className.includes("anchor")
@@ -20,9 +27,19 @@ allATag.forEach(e => {
         href: e.getAttribute("href") ?? "",
         className: e.getAttribute("class") ?? "",
         idName: e.getAttribute("id") ?? "",
+        hasTargetBlank: e.getAttribute("target") === "_blank",
         isSameSiteLink,
         isUserMention,
         isAnchorLink,
         rawElement: e,
+        setTargetBlankAttribute
     })
 })
+
+export const getSettingsAboutTargetBlank = () => {}
+
+export const setTargetBlank = (settings = {}) => {
+    domElements.forEach(element => {
+        element.setTargetBlankAttribute(element.rawElement)
+    })
+}

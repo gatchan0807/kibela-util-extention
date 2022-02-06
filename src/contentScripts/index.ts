@@ -1,5 +1,5 @@
-import { domElements } from "../features/target-blank/contentScripts"
+import { setTargetBlank } from "../features/target-blank/contentScripts"
 
 console.log("hello")
 
-console.log(domElements)
+setTargetBlank()
