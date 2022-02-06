@@ -68,7 +68,7 @@ const buildExtension = async (targetBrowser: Browser) => {
     sourcemap: devFlag ? 'inline' : false,
   });
   build({
-    entryPoints: ['src/contentScripts/contentScript.ts'],
+    entryPoints: ['src/contentScripts/index.ts'],
     bundle: true,
     outdir: distPath('contentScripts', targetBrowser),
     watch: watchOption(targetBrowser),

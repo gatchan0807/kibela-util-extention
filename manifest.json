@@ -24,7 +24,7 @@
         "https://*.kibe.la/*"
       ],
       "js": [
-        "contentScripts/contentScript.js"
+        "contentScripts/index.js"
       ]
     }
   ]
