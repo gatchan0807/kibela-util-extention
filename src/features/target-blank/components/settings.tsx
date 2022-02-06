@@ -4,7 +4,7 @@ export const Settings: React.FC = () => {
   return (
     <div className='text-gray-800'>
       <h2 className='text-lg border-b-2 border-cyan-500 pl-2'>リンク先設定</h2>
-      <div className="py-2 text-base">
+      <div className="pt-2 text-base">
         <input
           className="mx-2"
           type="checkbox"
@@ -14,6 +14,17 @@ export const Settings: React.FC = () => {
         />
         <label className='hover:cursor-pointer' htmlFor="always-open-another-tab">
           デフォルトでリンクを別タブで開く
+        </label>
+      </div>
+      <div className="pb-2 text-base">
+        <input
+          className="mx-2"
+          type="checkbox"
+          name="in-kibela-link-open-same-tab"
+          id="in-kibela-link-open-same-tab"
+        />
+        <label className='leading-tight hover:cursor-pointer' htmlFor="in-kibela-link-open-same-tab">
+          Kibela内の別記事 / ユーザーページへのリンクは同じタブで開く
         </label>
       </div>
       <div className='w-11/12 mx-auto border-b border-gray-300'>{/* spacer */}</div>
