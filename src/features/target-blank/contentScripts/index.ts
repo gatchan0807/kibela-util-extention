@@ -40,6 +40,9 @@ export const getSettingsAboutTargetBlank = () => {}
 
 export const setTargetBlank = (settings = {}) => {
     domElements.forEach(element => {
+        if (element.isAnchorLink) {
+            return
+        }
         element.setTargetBlankAttribute(element.rawElement)
     })
 }
