@@ -8,7 +8,7 @@ export type DOMElement = {
     rawElement: Element,
 }
 
-export const domElement: DOMElement[] = []
+export const domElements: DOMElement[] = []
 const allATag = document.querySelectorAll(".markdown-body a[href]")
 allATag.forEach(e => {
     const className = e.getAttribute("class") ?? ""
@@ -16,7 +16,7 @@ allATag.forEach(e => {
     const isUserMention = className.includes("user-mention")
     const isSameSiteLink = className.includes("entry-titleWithIcon")
 
-    domElement.push({
+    domElements.push({
         href: e.getAttribute("href") ?? "",
         className: e.getAttribute("class") ?? "",
         idName: e.getAttribute("id") ?? "",
