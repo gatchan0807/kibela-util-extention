@@ -5,6 +5,6 @@ export const setTargetBlank = (settings = {}) => {
         if (element.isAnchorLink) {
             return
         }
-        element.setTargetBlankAttribute(element)
+        element.setTargetBlankAttribute(element.rawElement)
     })
 }

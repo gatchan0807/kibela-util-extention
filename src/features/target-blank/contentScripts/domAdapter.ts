@@ -1,4 +1,4 @@
-export type DOMElement = Element & {
+export type DOMElement = {
     href: string,
     className: string,
     idName: string,
@@ -7,6 +7,7 @@ export type DOMElement = Element & {
     isAnchorLink: boolean,
     hasTargetBlank: boolean,
     setTargetBlankAttribute: (e: Element) => void,
+    rawElement: Element,
 }
 export const domElements: DOMElement[] = []
 
@@ -23,7 +24,6 @@ allATag.forEach(e => {
     const isSameSiteLink = className.includes("entry-titleWithIcon")
 
     domElements.push({
-        ...e,
         href: e.getAttribute("href") ?? "",
         className: e.getAttribute("class") ?? "",
         idName: e.getAttribute("id") ?? "",
@@ -31,6 +31,7 @@ allATag.forEach(e => {
         isSameSiteLink,
         isUserMention,
         isAnchorLink,
-        setTargetBlankAttribute
+        setTargetBlankAttribute,
+        rawElement: e,
     })
 })
