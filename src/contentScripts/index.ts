@@ -1,5 +1,8 @@
-import { setTargetBlank } from "../features/target-blank/contentScripts"
+import { getSettingsAboutTargetBlank, setTargetBlank } from "../features/target-blank/contentScripts"
 
-console.log("hello")
+;(async () => {
+    console.log("hello")
 
-setTargetBlank()
+    const settings = await getSettingsAboutTargetBlank()
+    await setTargetBlank(settings)
+})()
