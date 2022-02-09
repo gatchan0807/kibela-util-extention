@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 export const Settings: React.FC = () => {
   const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
+  const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false)
 
   useEffect(() => {
     chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
       const { targetBlankSettings } = rawResult;
       setAlwaysOpenOtherTab(targetBlankSettings.alwaysOpenOtherTab);
+      setInKibelaLinkOpenSameTab(targetBlankSettings.inKibelaLinkOpenSameTab);
     });
   }, []);
 
@@ -17,11 +19,12 @@ export const Settings: React.FC = () => {
       chrome.storage.sync.set({
         targetBlankSettings: {
           ...targetBlankSettings,
+          inKibelaLinkOpenSameTab,
           alwaysOpenOtherTab,
         },
       });
     });
-  }, [alwaysOpenOtherTab]);
+  }, [alwaysOpenOtherTab, inKibelaLinkOpenSameTab]);
 
   return (
     <div className="text-gray-800">
@@ -48,6 +51,8 @@ export const Settings: React.FC = () => {
           type="checkbox"
           name="in-kibela-link-open-same-tab"
           id="in-kibela-link-open-same-tab"
+          checked={inKibelaLinkOpenSameTab}
+          onChange={() => setInKibelaLinkOpenSameTab(!inKibelaLinkOpenSameTab)}
         />
         <label
           className="leading-tight hover:cursor-pointer"

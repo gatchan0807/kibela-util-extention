@@ -6,6 +6,9 @@ export const setTargetBlank = (settings: TargetBlankSettings) => {
         if (!settings.alwaysOpenOtherTab) {
             return
         }
+        if (settings.inKibelaLinkOpenSameTab && (element.isUserMention || element.isSameSiteLink)) {
+            return
+        }
         if (element.isAnchorLink) {
             return
         }
