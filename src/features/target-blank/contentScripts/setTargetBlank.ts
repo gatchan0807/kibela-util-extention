@@ -3,6 +3,9 @@ import { TargetBlankSettings } from "./getSettingsAboutTargetBlank"
 
 export const setTargetBlank = (settings: TargetBlankSettings) => {
     domElements.forEach(element => {
+        if (!settings.alwaysOpenOtherTab) {
+            return
+        }
         if (element.isAnchorLink) {
             return
         }
