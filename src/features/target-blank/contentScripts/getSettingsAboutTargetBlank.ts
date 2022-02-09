@@ -5,7 +5,7 @@ export type TargetBlankSettings = {
 }
 
 export const getSettingsAboutTargetBlank: () => Promise<TargetBlankSettings> = () => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         chrome.storage.sync.get("targetBlankSettings", rawResult => {
             const { targetBlankSettings } = rawResult
             if (!targetBlankSettings) {
