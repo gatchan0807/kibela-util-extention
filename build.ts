@@ -14,14 +14,14 @@ type Browser = 'firefox' | 'chrome';
 const watchOption = (targetBrowser: Browser): BuildOptions['watch'] =>
   watchFlag
     ? {
-        onRebuild: (error, result) => {
-          execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
-          if (error)
-            console.error(`watch build failed for ${targetBrowser}: `, error);
-          else
-            console.log(`watch build succeeded for ${targetBrowser}:`, result);
-        },
-      }
+      onRebuild: (error, result) => {
+        execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
+        if (error)
+          console.error(`watch build failed for ${targetBrowser}: `, error);
+        else
+          console.log(`watch build succeeded for ${targetBrowser}:`, result);
+      },
+    }
     : false;
 
 const distDir = (targetBrowser: Browser) => {
@@ -56,9 +56,6 @@ const buildExtension = async (targetBrowser: Browser) => {
   await fs.mkdir(distPath('popup', targetBrowser), { recursive: true });
   await fs.mkdir(distPath('icons', targetBrowser), { recursive: true });
 
-  // build tailwindcss
-  execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
-
   // build tsx by esbuild
   build({
     entryPoints: ['src/popup/index.tsx'],
@@ -74,6 +71,9 @@ const buildExtension = async (targetBrowser: Browser) => {
     watch: watchOption(targetBrowser),
     sourcemap: devFlag ? 'inline' : false,
   });
+
+  // build tailwindcss
+  execSync(`tailwindcss -i ./src/index.css -o ${distPath('popup/index.css', targetBrowser)}`)
 
   // copy static files
   if (watchFlag) {
