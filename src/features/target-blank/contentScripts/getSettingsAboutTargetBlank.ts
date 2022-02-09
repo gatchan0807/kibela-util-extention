@@ -1,5 +1,5 @@
 export type TargetBlankSettings = {
-    alwaysOpenAnotherTab: boolean
+    alwaysOpenOtherTab: boolean
     inKibelaLinkOpenSameTab: boolean
     excludeUrlList: string[]
 }
@@ -7,14 +7,15 @@ export type TargetBlankSettings = {
 export const getSettingsAboutTargetBlank: () => Promise<TargetBlankSettings> = () => {
     return new Promise((resolve, reject) => {
         chrome.storage.sync.get("targetBlankSettings", rawResult => {
-            if (!rawResult) {
-                return reject(rawResult)
+            const { targetBlankSettings } = rawResult
+            if (!targetBlankSettings) {
+                return reject(targetBlankSettings)
             }
 
             const result: TargetBlankSettings = {
-                alwaysOpenAnotherTab: rawResult["alwaysOpenAnotherTab"] ?? false,
-                inKibelaLinkOpenSameTab: rawResult["inKibelaLinkOpenSameTab"] ?? false,
-                excludeUrlList: rawResult["excludeUrlList"] ?? []
+                alwaysOpenOtherTab: targetBlankSettings.alwaysOpenOtherTab ?? false,
+                inKibelaLinkOpenSameTab: targetBlankSettings.inKibelaLinkOpenSameTab ?? false,
+                excludeUrlList: targetBlankSettings.excludeUrlList ?? []
             }
             return resolve(result)
         })
