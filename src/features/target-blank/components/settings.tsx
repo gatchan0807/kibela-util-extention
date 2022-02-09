@@ -1,6 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 export const Settings: React.FC = () => {
+  const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
+
+  useEffect(() => {
+    chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
+      const { targetBlankSettings } = rawResult;
+      setAlwaysOpenOtherTab(targetBlankSettings.alwaysOpenOtherTab);
+    });
+  }, []);
+
+  useEffect(() => {
+    chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
+      const { targetBlankSettings } = rawResult;
+
+      chrome.storage.sync.set({
+        targetBlankSettings: {
+          ...targetBlankSettings,
+          alwaysOpenOtherTab,
+        },
+      });
+    });
+  }, [alwaysOpenOtherTab]);
+
   return (
     <div className="text-gray-800">
       <h2 className="text-lg border-b-2 border-cyan-500 pl-2">リンク先設定</h2>
@@ -10,6 +32,8 @@ export const Settings: React.FC = () => {
           type="checkbox"
           name="always-open-another-tab"
           id="always-open-another-tab"
+          checked={alwaysOpenOtherTab}
+          onChange={() => setAlwaysOpenOtherTab(!alwaysOpenOtherTab)}
         />
         <label
           className="hover:cursor-pointer"
