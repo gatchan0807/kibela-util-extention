@@ -9,7 +9,12 @@ export const getSettingsAboutTargetBlank: () => Promise<TargetBlankSettings> = (
         chrome.storage.sync.get("targetBlankSettings", rawResult => {
             const { targetBlankSettings } = rawResult
             if (!targetBlankSettings) {
-                return reject(targetBlankSettings)
+                const defaultSetting: TargetBlankSettings = {
+                    alwaysOpenOtherTab: false,
+                    inKibelaLinkOpenSameTab: false,
+                    excludeUrlList: []
+                }
+                return resolve(defaultSetting)
             }
 
             const result: TargetBlankSettings = {
