@@ -2,13 +2,27 @@ import React, { useEffect, useState } from 'react';
 
 export const Settings: React.FC = () => {
   const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
-  const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false)
+  const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false);
+  const [excludeUrlInput, setExcludeUrlInput] = useState('');
+  const [excludeUrlList, setExcludeUrlList] = useState([]);
+
+  const excludeUrlInputHandler = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
+        const { targetBlankSettings } = rawResult;
+        const urlList = targetBlankSettings.excludeUrlList ?? []
+        urlList.push(excludeUrlInput)
+        setExcludeUrlList(urlList);
+      });
+    }
+  };
 
   useEffect(() => {
     chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
       const { targetBlankSettings } = rawResult;
       setAlwaysOpenOtherTab(targetBlankSettings.alwaysOpenOtherTab);
       setInKibelaLinkOpenSameTab(targetBlankSettings.inKibelaLinkOpenSameTab);
+      setExcludeUrlList(targetBlankSettings.excludeUrlList);
     });
   }, []);
 
@@ -21,10 +35,11 @@ export const Settings: React.FC = () => {
           ...targetBlankSettings,
           inKibelaLinkOpenSameTab,
           alwaysOpenOtherTab,
+          excludeUrlList,
         },
       });
     });
-  }, [alwaysOpenOtherTab, inKibelaLinkOpenSameTab]);
+  }, [alwaysOpenOtherTab, inKibelaLinkOpenSameTab, excludeUrlList]);
 
   return (
     <div className="text-gray-800">
@@ -73,6 +88,9 @@ export const Settings: React.FC = () => {
           type="text"
           name="url-pattern-form"
           id="url-pattern-form"
+          value={excludeUrlInput}
+          onChange={(e) => setExcludeUrlInput(e.target.value)}
+          onKeyPress={(e) => excludeUrlInputHandler(e)}
           placeholder="https://*.example.com/*"
         />
         <p className="text-xs text-cyan-600 leading-tight whitespace-nowrap">
@@ -83,6 +101,7 @@ export const Settings: React.FC = () => {
           別タブで開かない
         </p>
         <ul className="text-sm mt-2">
+          {excludeUrlList.join(",")}
           <li className="ml-6 pb-1 list-disc">https://*.example.com/*</li>
           <li className="ml-6 pb-1 list-disc">https://*.example.com/*</li>
         </ul>
