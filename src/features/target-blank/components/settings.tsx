@@ -5,14 +5,25 @@ export const Settings: React.FC = () => {
   const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false);
   const [excludeUrlInput, setExcludeUrlInput] = useState('');
   const [excludeUrlList, setExcludeUrlList] = useState([]);
+  const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
+    useState('');
 
   const excludeUrlInputHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      if (!excludeUrlInput.match(/^https\:\/\/[\w-]+\.[\w-]+[\w\/-]*/)) {
+        setExcludeUrlInputValidation(
+          'https://から始まるURLの記法で入力してください'
+        );
+        return;
+      }
+
+      setExcludeUrlInputValidation('');
       chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
         const { targetBlankSettings } = rawResult;
-        const urlList = targetBlankSettings.excludeUrlList ?? []
-        urlList.push(excludeUrlInput)
+        const urlList = targetBlankSettings.excludeUrlList ?? [];
+        urlList.push(excludeUrlInput);
         setExcludeUrlList(urlList);
+        setExcludeUrlInput('');
       });
     }
   };
@@ -93,6 +104,9 @@ export const Settings: React.FC = () => {
           onKeyPress={(e) => excludeUrlInputHandler(e)}
           placeholder="https://*.example.com/*"
         />
+        <p className="pb-2 text-xs text-red-700 leading-tight whitespace-nowrap">
+          {excludeUrlInputValidation}
+        </p>
         <p className="text-xs text-cyan-600 leading-tight whitespace-nowrap">
           *リンク先のURLが
           <wbr />
@@ -101,9 +115,9 @@ export const Settings: React.FC = () => {
           別タブで開かない
         </p>
         <ul className="text-sm mt-2">
-          {excludeUrlList.join(",")}
-          <li className="ml-6 pb-1 list-disc">https://*.example.com/*</li>
-          <li className="ml-6 pb-1 list-disc">https://*.example.com/*</li>
+          {excludeUrlList.map((url) => (
+            <li className="ml-6 pb-1 list-disc">{url}</li>
+          ))}
         </ul>
       </div>
     </div>
