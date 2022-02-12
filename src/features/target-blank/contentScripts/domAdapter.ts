@@ -1,4 +1,4 @@
-export type DOMElement = {
+type DOMElement = {
     href: string,
     className: string,
     idName: string,
@@ -9,8 +9,6 @@ export type DOMElement = {
     setTargetBlankAttribute: (e: Element) => void,
     rawElement: Element,
 }
-export const domElements: DOMElement[] = []
-
 const allATag = document.querySelectorAll(".markdown-body a[href]")
 const setTargetBlankAttribute = (element: Element) => {
     element.setAttribute("target", "_blank")
@@ -35,3 +33,5 @@ allATag.forEach(e => {
         rawElement: e,
     })
 })
+
+export const domElements: DOMElement[] = []

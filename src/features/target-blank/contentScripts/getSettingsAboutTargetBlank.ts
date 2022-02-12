@@ -1,8 +1,4 @@
-export type TargetBlankSettings = {
-    alwaysOpenOtherTab: boolean
-    inKibelaLinkOpenSameTab: boolean
-    excludeUrlList: string[]
-}
+import { TargetBlankSettings } from "../types"
 
 export const getSettingsAboutTargetBlank: () => Promise<TargetBlankSettings> = () => {
     return new Promise((resolve) => {

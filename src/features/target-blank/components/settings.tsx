@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-
-type ExcludeUrl = {
-  id: string;
-  url: string;
-};
+import { ExcludeUrl } from '../types';
 
 const sha256 = async (text: string) => {
   const uint8 = new TextEncoder().encode(text);
@@ -33,7 +29,7 @@ export const Settings: React.FC = () => {
         return;
       }
       if (excludeUrlList.find((item) => item.id === id)) {
-        setExcludeUrlInputValidation('すでに同じ例外パターンが登録済みです');
+        setExcludeUrlInputValidation('すでに同じ例外ドメインが登録済みです');
         return;
       }
 
