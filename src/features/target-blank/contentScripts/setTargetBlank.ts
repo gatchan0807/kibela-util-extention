@@ -19,7 +19,9 @@ export const setTargetBlank = (settings: TargetBlankSettings) => {
             if (excludeUrlList.includes(host)) {
                 return
             }
-        } catch (e) { }
+        } catch (e) { 
+            console.log(e);
+        }
         element.setTargetBlankAttribute(element.rawElement)
     })
 }

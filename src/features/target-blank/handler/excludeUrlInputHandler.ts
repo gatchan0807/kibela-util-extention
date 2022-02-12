@@ -5,7 +5,7 @@ import { sha256, getSettingsAboutTargetBlank } from "../utils";
 export const excludeUrlInputHandler = async (e: React.KeyboardEvent, { dispatch, localSettings }: { dispatch: React.Dispatch<Action>, localSettings: State }) => {
     if (e.key === 'Enter') {
         if (
-            !localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)
+            !localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9/:]+/g)
         ) {
             dispatch({ type: 'setExcludeUrlInputValidation', payload: 'https://から始まるURLの記法で入力してください' });
             return;

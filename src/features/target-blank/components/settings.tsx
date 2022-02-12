@@ -112,7 +112,7 @@ export const Settings: React.FC = () => {
               {url}
               <button
                 className="bg-cyan-600 text-white px-4 ml-2 rounded-md hover:bg-cyan-500"
-                onClick={(_) => excludeUrlDeleteHandler(id, { dispatch })}
+                onClick={() => excludeUrlDeleteHandler(id, { dispatch })}
               >
                 削除
               </button>
