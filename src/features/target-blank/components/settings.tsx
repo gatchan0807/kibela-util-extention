@@ -51,16 +51,13 @@ export const Settings: React.FC = () => {
     chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
       const { targetBlankSettings } = rawResult;
       let urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
+      const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
 
-      const selectedIndex = urlList.findIndex((urlItem) => urlItem.id === id);
-      delete urlList[selectedIndex];
-      urlList = urlList.filter(Boolean);
-
-      setExcludeUrlList(urlList);
+      setExcludeUrlList(deletedUrlList);
       chrome.storage.sync.set({
         targetBlankSettings: {
           ...targetBlankSettings,
-          excludeUrlList: urlList,
+          excludeUrlList: deletedUrlList,
         },
       });
     });
