@@ -12,15 +12,21 @@
 
 ## Chrome Storeを経由しないインストール方法
 
-1.  から ZIPファイルをダウンロードし、ZIPを解凍する
+1. https://github.com/gatchan0807/kibela-util-extention/blob/master/packaged/dist-chrome.zip から ZIPファイルをダウンロードし、ZIPを解凍する
 
 2. chrome://extensions/ にアクセスする
 
 3. 画面右上のデベロッパーモードをONにする
 
+![画面右上のデベロッパーモードをONにする](https://github.com/gatchan0807/kibela-util-extention/blob/master/docs/img/developer-mode.png)
+
 4. 「パッケージ化されていない拡張機能を読み込む」ボタンを押す
 
+![「パッケージ化されていない拡張機能を読み込む」ボタンを押す](https://github.com/gatchan0807/kibela-util-extention/blob/master/docs/img/add-extension.png)
+
 5. ZIPを解凍してできたフォルダを指定する
+
+![ZIPを解凍してできたフォルダを指定する](https://github.com/gatchan0807/kibela-util-extention/blob/master/docs/img/file-exploler.png)
 
 # Special Thanks
 
