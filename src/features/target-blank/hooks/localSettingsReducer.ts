@@ -1,6 +1,6 @@
 import { ExcludeUrl } from "../types";
 
-type ActionType = 'setAlwaysOpenOtherTab' | 'setInKibelaLinkOpenSameTab'
+type ActionType = 'setAlwaysOpenOtherTab' | 'setInKibelaLinkOpenSameTab' | 'setExcludeUrlInputValidation'
 
 type Action = {
     type: ActionType;

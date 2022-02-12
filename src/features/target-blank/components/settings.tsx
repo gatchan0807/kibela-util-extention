@@ -11,8 +11,6 @@ export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
   const [excludeUrlInput, setExcludeUrlInput] = useState('');
   const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
-  const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
-    useState('');
 
   const initState: State = {
     alwaysOpenOtherTab: true,
@@ -27,16 +25,20 @@ export const Settings: React.FC = () => {
   const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       if (!excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
-        setExcludeUrlInputValidation(
-          'https://から始まるURLの記法で入力してください'
-        );
+        dispatch({
+          type: 'setExcludeUrlInputValidation',
+          payload: 'https://から始まるURLの記法で入力してください',
+        });
         return;
       }
 
       const { host } = new URL(excludeUrlInput);
       const id = await sha256(host);
       if (excludeUrlList.find((item) => item.id === id)) {
-        setExcludeUrlInputValidation('すでに同じ例外ドメインが登録済みです');
+        dispatch({
+          type: 'setExcludeUrlInputValidation',
+          payload: 'すでに同じ例外ドメインが登録済みです',
+        });
         return;
       }
 
@@ -46,7 +48,10 @@ export const Settings: React.FC = () => {
       urlList.push({ url: excludeUrlInput, id, host });
 
       setExcludeUrlList(urlList);
-      setExcludeUrlInputValidation('');
+      dispatch({
+        type: 'setExcludeUrlInputValidation',
+        payload: '',
+      });
       setExcludeUrlInput('');
     }
   };
