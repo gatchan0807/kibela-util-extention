@@ -9,7 +9,6 @@ import {
 
 export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
-  const [excludeUrlInput, setExcludeUrlInput] = useState('');
   const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
 
   const initState: State = {
@@ -24,7 +23,7 @@ export const Settings: React.FC = () => {
 
   const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      if (!excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
+      if (!localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
         dispatch({
           type: 'setExcludeUrlInputValidation',
           payload: 'https://から始まるURLの記法で入力してください',
@@ -32,7 +31,7 @@ export const Settings: React.FC = () => {
         return;
       }
 
-      const { host } = new URL(excludeUrlInput);
+      const { host } = new URL(localSettings.excludeUrlInput);
       const id = await sha256(host);
       if (excludeUrlList.find((item) => item.id === id)) {
         dispatch({
@@ -45,14 +44,14 @@ export const Settings: React.FC = () => {
       const targetBlankSettings = await getSettingsAboutTargetBlank();
       const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
 
-      urlList.push({ url: excludeUrlInput, id, host });
+      urlList.push({ url: localSettings.excludeUrlInput, id, host });
 
       setExcludeUrlList(urlList);
       dispatch({
         type: 'setExcludeUrlInputValidation',
         payload: '',
       });
-      setExcludeUrlInput('');
+      dispatch({ type: 'setExcludeUrlInput', payload: '' });
     }
   };
 
@@ -153,7 +152,9 @@ export const Settings: React.FC = () => {
           name="url-pattern-form"
           id="url-pattern-form"
           value={localSettings.excludeUrlInput}
-          onChange={(e) => setExcludeUrlInput(e.target.value)}
+          onChange={(e) =>
+            dispatch({ type: 'setExcludeUrlInput', payload: e.target.value })
+          }
           onKeyPress={(e) => excludeUrlInputHandler(e)}
           placeholder="https://example.com/"
         />
