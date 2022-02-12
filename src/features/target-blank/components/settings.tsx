@@ -7,7 +7,6 @@ import {
   sha256,
 } from '../utils';
 
-
 export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
   const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
@@ -77,11 +76,15 @@ export const Settings: React.FC = () => {
 
   useEffect(() => {
     setChromeStorage({
-      inKibelaLinkOpenSameTab,
-      alwaysOpenOtherTab,
-      excludeUrlList,
+      alwaysOpenOtherTab: localSettings.alwaysOpenOtherTab,
+      inKibelaLinkOpenSameTab: localSettings.inKibelaLinkOpenSameTab,
+      excludeUrlList: localSettings.excludeUrlList,
     });
-  }, [alwaysOpenOtherTab, inKibelaLinkOpenSameTab, excludeUrlList]);
+  }, [
+    localSettings.alwaysOpenOtherTab,
+    localSettings.inKibelaLinkOpenSameTab,
+    localSettings.excludeUrlList,
+  ]);
 
   return (
     <div className="text-gray-800">
@@ -92,7 +95,7 @@ export const Settings: React.FC = () => {
           type="checkbox"
           name="always-open-another-tab"
           id="always-open-another-tab"
-          checked={alwaysOpenOtherTab}
+          checked={localSettings.alwaysOpenOtherTab}
           onChange={() => setAlwaysOpenOtherTab(!alwaysOpenOtherTab)}
         />
         <label
@@ -108,7 +111,7 @@ export const Settings: React.FC = () => {
           type="checkbox"
           name="in-kibela-link-open-same-tab"
           id="in-kibela-link-open-same-tab"
-          checked={inKibelaLinkOpenSameTab}
+          checked={localSettings.inKibelaLinkOpenSameTab}
           onChange={() => setInKibelaLinkOpenSameTab(!inKibelaLinkOpenSameTab)}
         />
         <label
@@ -130,13 +133,13 @@ export const Settings: React.FC = () => {
           type="text"
           name="url-pattern-form"
           id="url-pattern-form"
-          value={excludeUrlInput}
+          value={localSettings.excludeUrlInput}
           onChange={(e) => setExcludeUrlInput(e.target.value)}
           onKeyPress={(e) => excludeUrlInputHandler(e)}
           placeholder="https://example.com/"
         />
         <p className="pb-2 text-xs text-red-700 leading-tight whitespace-nowrap">
-          {excludeUrlInputValidation}
+          {localSettings.excludeUrlInputValidation}
         </p>
         <p className="text-xs text-cyan-600 leading-tight whitespace-nowrap">
           *リンク先のドメインが
@@ -146,7 +149,7 @@ export const Settings: React.FC = () => {
           別タブで開かない
         </p>
         <ul className="text-sm mt-2">
-          {excludeUrlList.map(({ url, id }) => (
+          {localSettings.excludeUrlList.map(({ url, id }) => (
             <li className="ml-6 pb-1 list-disc" key={id} data-id={id}>
               {url}
               <button
