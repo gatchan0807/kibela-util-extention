@@ -22,23 +22,29 @@ export const Settings: React.FC = () => {
   const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
     useState('');
 
-  const excludeUrlInputHandler = (e: React.KeyboardEvent) => {
+  const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
+      const id = await sha256(excludeUrlInput);
+
       if (!excludeUrlInput.match(/^https\:\/\/[\*\w-]+\.[\*\w-]+[\*\w\/-]*/)) {
         setExcludeUrlInputValidation(
           'https://から始まるURLの記法で入力してください'
         );
         return;
       }
+      if (excludeUrlList.find((item) => item.id === id)) {
+        setExcludeUrlInputValidation('すでに同じ例外パターンが登録済みです');
+        return;
+      }
 
-      setExcludeUrlInputValidation('');
       chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
         const { targetBlankSettings } = rawResult;
         const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
-        const id = await sha256(excludeUrlInput);
+
         urlList.push({ url: excludeUrlInput, id });
 
         setExcludeUrlList(urlList);
+        setExcludeUrlInputValidation('');
         setExcludeUrlInput('');
       });
     }
@@ -47,12 +53,11 @@ export const Settings: React.FC = () => {
   const excludeUrlDeleteHandler = (id: string) => {
     chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
       const { targetBlankSettings } = rawResult;
-      let urlList =
-        (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
+      let urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
 
       const selectedIndex = urlList.findIndex((urlItem) => urlItem.id === id);
       delete urlList[selectedIndex];
-      urlList = urlList.filter(Boolean)
+      urlList = urlList.filter(Boolean);
 
       setExcludeUrlList(urlList);
       chrome.storage.sync.set({
