@@ -1,11 +1,7 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
+import { excludeUrlDeleteHandler, excludeUrlInputHandler } from '../handler';
 import { localSettingsReducer, State } from '../hooks/localSettingsReducer';
-import { ExcludeUrl } from '../types';
-import {
-  getSettingsAboutTargetBlank,
-  setChromeStorage,
-  sha256,
-} from '../utils';
+import { initializeState, setChromeStorage } from '../utils';
 
 export const Settings: React.FC = () => {
   const initState: State = {
@@ -18,70 +14,8 @@ export const Settings: React.FC = () => {
 
   const [localSettings, dispatch] = useReducer(localSettingsReducer, initState);
 
-  const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      if (
-        !localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)
-      ) {
-        dispatch({
-          type: 'setExcludeUrlInputValidation',
-          payload: 'https://から始まるURLの記法で入力してください',
-        });
-        return;
-      }
-
-      const { host } = new URL(localSettings.excludeUrlInput);
-      const id = await sha256(host);
-      if (localSettings.excludeUrlList.find((item) => item.id === id)) {
-        dispatch({
-          type: 'setExcludeUrlInputValidation',
-          payload: 'すでに同じ例外ドメインが登録済みです',
-        });
-        return;
-      }
-
-      const targetBlankSettings = await getSettingsAboutTargetBlank();
-      const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
-
-      urlList.push({ url: localSettings.excludeUrlInput, id, host });
-
-      dispatch({ type: 'setExcludeUrlList', payload: urlList });
-      dispatch({
-        type: 'setExcludeUrlInputValidation',
-        payload: '',
-      });
-      dispatch({ type: 'setExcludeUrlInput', payload: '' });
-    }
-  };
-
-  const excludeUrlDeleteHandler = async (id: string) => {
-    const targetBlankSettings = await getSettingsAboutTargetBlank();
-    const urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
-    const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
-
-    dispatch({ type: 'setExcludeUrlList', payload: deletedUrlList });
-    setChromeStorage({
-      ...targetBlankSettings,
-      excludeUrlList: deletedUrlList,
-    });
-  };
-
   useEffect(() => {
-    (async () => {
-      const targetBlankSettings = await getSettingsAboutTargetBlank();
-      dispatch({
-        type: 'setAlwaysOpenOtherTab',
-        payload: targetBlankSettings.alwaysOpenOtherTab,
-      });
-      dispatch({
-        type: 'setInKibelaLinkOpenSameTab',
-        payload: targetBlankSettings.inKibelaLinkOpenSameTab,
-      });
-      dispatch({
-        type: 'setExcludeUrlList',
-        payload: targetBlankSettings.excludeUrlList,
-      });
-    })();
+    initializeState(dispatch);
   }, []);
 
   useEffect(() => {
@@ -157,7 +91,9 @@ export const Settings: React.FC = () => {
           onChange={(e) =>
             dispatch({ type: 'setExcludeUrlInput', payload: e.target.value })
           }
-          onKeyPress={(e) => excludeUrlInputHandler(e)}
+          onKeyPress={(e) =>
+            excludeUrlInputHandler(e, { localSettings, dispatch })
+          }
           placeholder="https://example.com/"
         />
         <p className="pb-2 text-xs text-red-700 leading-tight whitespace-nowrap">
@@ -176,7 +112,7 @@ export const Settings: React.FC = () => {
               {url}
               <button
                 className="bg-cyan-600 text-white px-4 ml-2 rounded-md hover:bg-cyan-500"
-                onClick={(_) => excludeUrlDeleteHandler(id)}
+                onClick={(_) => excludeUrlDeleteHandler(id, { dispatch })}
               >
                 削除
               </button>
