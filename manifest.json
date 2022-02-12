@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Kibelaの木べら！！",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "便利な調理器具の木べらみたいに、Kibelaをちょっと使いやすくする機能を詰めこんだChrome拡張。 現在含まれる機能: デフォルトで別タブで開く機能",
   "icons": {
     "16": "icons/icon-16.png",
