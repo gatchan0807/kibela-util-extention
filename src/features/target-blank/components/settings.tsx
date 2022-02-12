@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ExcludeUrl } from '../types';
+import { getSettingsAboutTargetBlank, setChromeStorage } from '../utils';
 
 const sha256 = async (text: string) => {
   const uint8 = new TextEncoder().encode(text);
@@ -34,56 +35,43 @@ export const Settings: React.FC = () => {
         return;
       }
 
-      chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
-        const { targetBlankSettings } = rawResult;
-        const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
+      const targetBlankSettings = await getSettingsAboutTargetBlank();
+      const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
 
-        urlList.push({ url: excludeUrlInput, id, host });
+      urlList.push({ url: excludeUrlInput, id, host });
 
-        setExcludeUrlList(urlList);
-        setExcludeUrlInputValidation('');
-        setExcludeUrlInput('');
-      });
+      setExcludeUrlList(urlList);
+      setExcludeUrlInputValidation('');
+      setExcludeUrlInput('');
     }
   };
 
-  const excludeUrlDeleteHandler = (id: string) => {
-    chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
-      const { targetBlankSettings } = rawResult;
-      let urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
-      const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
+  const excludeUrlDeleteHandler = async (id: string) => {
+    const targetBlankSettings = await getSettingsAboutTargetBlank();
+    let urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
+    const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
 
-      setExcludeUrlList(deletedUrlList);
-      chrome.storage.sync.set({
-        targetBlankSettings: {
-          ...targetBlankSettings,
-          excludeUrlList: deletedUrlList,
-        },
-      });
+    setExcludeUrlList(deletedUrlList);
+    setChromeStorage({
+      ...targetBlankSettings,
+      excludeUrlList: deletedUrlList,
     });
   };
 
   useEffect(() => {
-    chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
-      const { targetBlankSettings } = rawResult;
+    (async () => {
+      const targetBlankSettings = await getSettingsAboutTargetBlank();
       setAlwaysOpenOtherTab(targetBlankSettings.alwaysOpenOtherTab);
       setInKibelaLinkOpenSameTab(targetBlankSettings.inKibelaLinkOpenSameTab);
       setExcludeUrlList(targetBlankSettings.excludeUrlList);
-    });
+    })();
   }, []);
 
   useEffect(() => {
-    chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
-      const { targetBlankSettings } = rawResult;
-
-      chrome.storage.sync.set({
-        targetBlankSettings: {
-          ...targetBlankSettings,
-          inKibelaLinkOpenSameTab,
-          alwaysOpenOtherTab,
-          excludeUrlList,
-        },
-      });
+    setChromeStorage({
+      inKibelaLinkOpenSameTab,
+      alwaysOpenOtherTab,
+      excludeUrlList,
     });
   }, [alwaysOpenOtherTab, inKibelaLinkOpenSameTab, excludeUrlList]);
 
