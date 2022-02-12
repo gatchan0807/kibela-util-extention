@@ -1,14 +1,17 @@
 {
-  "name": "web-ext-react-template",
-  "version": "1.0.2",
+  "name": "kibela-util-extension",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "ts-node -T build.ts --firefox --chrome",
+    "clean:chrome": "rimraf dist-chrome",
+    "clean:firefox": "rimraf dist-firefox",
     "build:firefox": "ts-node -T build.ts --firefox",
     "build:chrome": "ts-node -T build.ts --chrome",
     "run:firefox": "web-ext run -s dist-firefox",
     "run:chrome": "web-ext run -s dist-chrome -t chromium",
-    "package:firefox": "web-ext build -s dist-firefox --overwrite-dest"
+    "package:firefox": "echo \"=== つかえないよ！！===\"; web-ext build -s dist-firefox --overwrite-dest",
+    "package:chrome": "yarn clean:chrome && yarn build:chrome && zip -r packaged/dist-chrome.zip dist-chrome"
   },
   "dependencies": {
     "@types/chrome": "^0.0.178",
@@ -31,6 +34,7 @@
     "eslint-plugin-react-hooks": "^4.3.0",
     "postcss": "^8.4.6",
     "prettier": "2.5.1",
+    "rimraf": "^3.0.2",
     "tailwindcss": "^3.0.18",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",
