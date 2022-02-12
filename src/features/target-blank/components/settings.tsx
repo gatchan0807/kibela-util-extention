@@ -20,14 +20,15 @@ export const Settings: React.FC = () => {
 
   const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      const id = await sha256(excludeUrlInput);
-
       if (!excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
         setExcludeUrlInputValidation(
           'https://から始まるURLの記法で入力してください'
         );
         return;
       }
+
+      const { host } = new URL(excludeUrlInput);
+      const id = await sha256(host);
       if (excludeUrlList.find((item) => item.id === id)) {
         setExcludeUrlInputValidation('すでに同じ例外ドメインが登録済みです');
         return;
@@ -37,7 +38,7 @@ export const Settings: React.FC = () => {
         const { targetBlankSettings } = rawResult;
         const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
 
-        urlList.push({ url: excludeUrlInput, id });
+        urlList.push({ url: excludeUrlInput, id, host });
 
         setExcludeUrlList(urlList);
         setExcludeUrlInputValidation('');

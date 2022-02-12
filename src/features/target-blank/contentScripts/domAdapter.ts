@@ -1,3 +1,5 @@
+export const domElements: DOMElement[] = []
+
 type DOMElement = {
     href: string,
     className: string,
@@ -33,5 +35,3 @@ allATag.forEach(e => {
         rawElement: e,
     })
 })
-
-export const domElements: DOMElement[] = []

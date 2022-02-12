@@ -7,4 +7,5 @@ export type TargetBlankSettings = {
 export type ExcludeUrl = {
     id: string;
     url: string;
+    host: string;
 };
