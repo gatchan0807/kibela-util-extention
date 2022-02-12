@@ -26,7 +26,7 @@ export const Settings: React.FC = () => {
     if (e.key === 'Enter') {
       const id = await sha256(excludeUrlInput);
 
-      if (!excludeUrlInput.match(/^https\:\/\/[\*\w-]+\.[\*\w-]+[\*\w\/-]*/)) {
+      if (!excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
         setExcludeUrlInputValidation(
           'https://から始まるURLの記法で入力してください'
         );
@@ -133,7 +133,7 @@ export const Settings: React.FC = () => {
       </div>
       <div className="py-2 text-base">
         <h3 className="text-base mb-4 pl-2 border-b border-cyan-500">
-          例外指定
+          例外ドメイン指定
         </h3>
         <input
           className="block w-full px-2 mb-2 border border-cyan-500 rounded"
@@ -143,13 +143,13 @@ export const Settings: React.FC = () => {
           value={excludeUrlInput}
           onChange={(e) => setExcludeUrlInput(e.target.value)}
           onKeyPress={(e) => excludeUrlInputHandler(e)}
-          placeholder="https://*.example.com/*"
+          placeholder="https://example.com/"
         />
         <p className="pb-2 text-xs text-red-700 leading-tight whitespace-nowrap">
           {excludeUrlInputValidation}
         </p>
         <p className="text-xs text-cyan-600 leading-tight whitespace-nowrap">
-          *リンク先のURLが
+          *リンク先のドメインが
           <wbr />
           下記パターンに一致する場合は
           <wbr />
