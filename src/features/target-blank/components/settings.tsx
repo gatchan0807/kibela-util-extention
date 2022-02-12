@@ -24,7 +24,7 @@ export const Settings: React.FC = () => {
 
   const excludeUrlInputHandler = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      if (!excludeUrlInput.match(/^https\:\/\/[\w-]+\.[\w-]+[\w\/-]*/)) {
+      if (!excludeUrlInput.match(/^https\:\/\/[\*\w-]+\.[\*\w-]+[\*\w\/-]*/)) {
         setExcludeUrlInputValidation(
           'https://から始まるURLの記法で入力してください'
         );
