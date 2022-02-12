@@ -1,6 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
+import { localSettingsReducer, State } from '../hooks/localSettingsReducer';
 import { ExcludeUrl } from '../types';
-import { getSettingsAboutTargetBlank, setChromeStorage, sha256 } from '../utils';
+import {
+  getSettingsAboutTargetBlank,
+  setChromeStorage,
+  sha256,
+} from '../utils';
+
 
 export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
@@ -10,6 +16,16 @@ export const Settings: React.FC = () => {
   const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
   const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
     useState('');
+
+  const initState: State = {
+    alwaysOpenOtherTab: true,
+    inKibelaLinkOpenSameTab: false,
+    excludeUrlInput: '',
+    excludeUrlList: [],
+    excludeUrlInputValidation: '',
+  };
+
+  const [localSettings, dispatch] = useReducer(localSettingsReducer, initState);
 
   const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
