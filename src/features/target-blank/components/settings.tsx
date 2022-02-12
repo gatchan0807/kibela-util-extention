@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ExcludeUrl } from '../types';
-import { getSettingsAboutTargetBlank, setChromeStorage } from '../utils';
-
-const sha256 = async (text: string) => {
-  const uint8 = new TextEncoder().encode(text);
-  const digest = await crypto.subtle.digest('SHA-256', uint8);
-  return Array.from(new Uint8Array(digest))
-    .map((v) => v.toString(16).padStart(2, '0'))
-    .join('');
-};
+import { getSettingsAboutTargetBlank, setChromeStorage, sha256 } from '../utils';
 
 export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
@@ -48,7 +40,7 @@ export const Settings: React.FC = () => {
 
   const excludeUrlDeleteHandler = async (id: string) => {
     const targetBlankSettings = await getSettingsAboutTargetBlank();
-    let urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
+    const urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
     const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
 
     setExcludeUrlList(deletedUrlList);
