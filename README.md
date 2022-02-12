@@ -1,92 +1,47 @@
-# Template for a browser extension
+# About 
 
-Build a browser extension with React + TypeScript + esbuild.
-Supporting both Firefox and Chrome.
+便利な調理器具の木べらみたいに、Kibelaをちょっと使いやすくする機能を詰めこんだChrome拡張。 
 
+## 現在含まれる機能
+
+- 記事内のリンクをデフォルトで別タブで開く機能
+
+## Chrome Store
+
+限定公開URL: https://chrome.google.com/webstore/detail/boidicgjhjfndonhaekmpaijhgijklhp
+
+# Special Thanks
+
+公開されていたテンプレートを利用させていただきました。
+https://github.com/htlsne/web-ext-react-template
+
+# For Contribute
 ## Basic Usage
 
+Build a browser extension with React + TypeScript + esbuild.
 Following examples are for `yarn`. For `npm`, please translate by yourself.
 
-### Build
+### Development
 
-Firefox:
+#### Build
 
-```
-yarn run build:firefox
-```
-
-With watch mode:
-
-```
-yarn run build:firefox --watch
-```
-
-Enable source map:
-
-```
-yarn run build:firefox --dev
-```
-
-Chrome:
-
-```
+```shell
 yarn run build:chrome
+yarn run build:chrome --watch # watch mode
+yarn run build:chrome --watch --dev # watch mode with source map
 ```
 
-Build for both browsers:
+#### Run with browsers
 
-```
-yarn build
-```
-
-### Run with browsers
-
-Firefox:
-
-```
-yarn run run:firefox
+```shell
+yarn run run:chrome # Launch Chrome browser on your device
 ```
 
-Chrome
+### Create a package for Chrome
 
 ```
-yarn run run:chrome
+yarn run package:chrome
 ```
-
-### Create a package for Firefox (zip)
-
-```
-yarn run package:firefox
-```
-
-To install an unsigned add-on, you must use Firefox Developer Edition.
-https://support.mozilla.org/en-US/kb/add-on-signing-in-firefox
-
-### ESLint
-
-```
-yarn run eslint . --ext .js,.jsx,.ts,.tsx
-```
-
-### Prettier
-
-```
-yarn run prettier --write .
-```
-
-## Customization
-
-### Change Add-on ID for Firefox
-
-Edit `firefox.json`.
-It looks like ID need to match following format:
-
-- `{<UUID>}`
-  - e.g. `{abac34b6-b4bd-4fc7-af89-6f7d30be386b}`
-- `<alphanum>@<alphanum>`
-  - e.g. `dummy@dummy`
-
-cf. https://stackoverflow.com/questions/45339492/firefox-add-on-id-conventions
 
 ### Add background_scripts, etc.
 
