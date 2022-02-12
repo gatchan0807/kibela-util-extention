@@ -8,7 +8,6 @@
     "32": "icons/icon-32.png"
   },
   "permissions": [
-    "tabs",
     "storage"
   ],
   "action": {
