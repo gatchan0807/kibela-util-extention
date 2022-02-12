@@ -1,5 +1,4 @@
 import React from 'react';
-import browser from 'webextension-polyfill';
 import * as SettingUI from './settings';
 
 export const Popup: React.VFC = () => {
