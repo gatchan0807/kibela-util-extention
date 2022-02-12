@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
 
+type ExcludeUrl = {
+  id: string;
+  url: string;
+};
+
+const sha256 = async (text: string) => {
+  const uint8 = new TextEncoder().encode(text);
+  const digest = await crypto.subtle.digest('SHA-256', uint8);
+  return Array.from(new Uint8Array(digest))
+    .map((v) => v.toString(16).padStart(2, '0'))
+    .join('');
+};
+
 export const Settings: React.FC = () => {
+  const initialExcludeUrlList: ExcludeUrl[] = [];
   const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
   const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false);
   const [excludeUrlInput, setExcludeUrlInput] = useState('');
-  const [excludeUrlList, setExcludeUrlList] = useState([]);
+  const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
   const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
     useState('');
 
@@ -18,10 +32,12 @@ export const Settings: React.FC = () => {
       }
 
       setExcludeUrlInputValidation('');
-      chrome.storage.sync.get('targetBlankSettings', (rawResult) => {
+      chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
         const { targetBlankSettings } = rawResult;
-        const urlList = targetBlankSettings.excludeUrlList ?? [];
-        urlList.push(excludeUrlInput);
+        const urlList: ExcludeUrl[] = targetBlankSettings.excludeUrlList ?? [];
+        const id = await sha256(excludeUrlInput);
+        urlList.push({ url: excludeUrlInput, id });
+
         setExcludeUrlList(urlList);
         setExcludeUrlInput('');
       });
@@ -115,8 +131,10 @@ export const Settings: React.FC = () => {
           別タブで開かない
         </p>
         <ul className="text-sm mt-2">
-          {excludeUrlList.map((url) => (
-            <li className="ml-6 pb-1 list-disc">{url}</li>
+          {excludeUrlList.map(({ url, id }) => (
+            <li className="ml-6 pb-1 list-disc" data-id={id}>
+              {url}
+            </li>
           ))}
         </ul>
       </div>
