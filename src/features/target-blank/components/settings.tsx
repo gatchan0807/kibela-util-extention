@@ -9,8 +9,6 @@ import {
 
 export const Settings: React.FC = () => {
   const initialExcludeUrlList: ExcludeUrl[] = [];
-  const [alwaysOpenOtherTab, setAlwaysOpenOtherTab] = useState(true);
-  const [inKibelaLinkOpenSameTab, setInKibelaLinkOpenSameTab] = useState(false);
   const [excludeUrlInput, setExcludeUrlInput] = useState('');
   const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
   const [excludeUrlInputValidation, setExcludeUrlInputValidation] =
@@ -68,8 +66,14 @@ export const Settings: React.FC = () => {
   useEffect(() => {
     (async () => {
       const targetBlankSettings = await getSettingsAboutTargetBlank();
-      setAlwaysOpenOtherTab(targetBlankSettings.alwaysOpenOtherTab);
-      setInKibelaLinkOpenSameTab(targetBlankSettings.inKibelaLinkOpenSameTab);
+      dispatch({
+        type: 'setAlwaysOpenOtherTab',
+        payload: targetBlankSettings.alwaysOpenOtherTab,
+      });
+      dispatch({
+        type: 'setInKibelaLinkOpenSameTab',
+        payload: targetBlankSettings.inKibelaLinkOpenSameTab,
+      });
       setExcludeUrlList(targetBlankSettings.excludeUrlList);
     })();
   }, []);
@@ -96,7 +100,12 @@ export const Settings: React.FC = () => {
           name="always-open-another-tab"
           id="always-open-another-tab"
           checked={localSettings.alwaysOpenOtherTab}
-          onChange={() => setAlwaysOpenOtherTab(!alwaysOpenOtherTab)}
+          onChange={() =>
+            dispatch({
+              type: 'setAlwaysOpenOtherTab',
+              payload: !localSettings.alwaysOpenOtherTab,
+            })
+          }
         />
         <label
           className="hover:cursor-pointer"
@@ -112,7 +121,12 @@ export const Settings: React.FC = () => {
           name="in-kibela-link-open-same-tab"
           id="in-kibela-link-open-same-tab"
           checked={localSettings.inKibelaLinkOpenSameTab}
-          onChange={() => setInKibelaLinkOpenSameTab(!inKibelaLinkOpenSameTab)}
+          onChange={() =>
+            dispatch({
+              type: 'setInKibelaLinkOpenSameTab',
+              payload: !localSettings.inKibelaLinkOpenSameTab,
+            })
+          }
         />
         <label
           className="leading-tight hover:cursor-pointer"
