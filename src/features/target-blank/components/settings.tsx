@@ -47,14 +47,14 @@ export const Settings: React.FC = () => {
   const excludeUrlDeleteHandler = (id: string) => {
     chrome.storage.sync.get('targetBlankSettings', async (rawResult) => {
       const { targetBlankSettings } = rawResult;
-      const urlList =
+      let urlList =
         (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
 
       const selectedIndex = urlList.findIndex((urlItem) => urlItem.id === id);
       delete urlList[selectedIndex];
+      urlList = urlList.filter(Boolean)
 
       setExcludeUrlList(urlList);
-
       chrome.storage.sync.set({
         targetBlankSettings: {
           ...targetBlankSettings,
@@ -152,7 +152,7 @@ export const Settings: React.FC = () => {
         </p>
         <ul className="text-sm mt-2">
           {excludeUrlList.map(({ url, id }) => (
-            <li className="ml-6 pb-1 list-disc" data-id={id}>
+            <li className="ml-6 pb-1 list-disc" key={id} data-id={id}>
               {url}
               <button
                 className="bg-cyan-600 text-white px-4 ml-2 rounded-md hover:bg-cyan-500"
