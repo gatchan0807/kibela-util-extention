@@ -1,6 +1,6 @@
 import { ExcludeUrl } from "../types";
 
-type ActionType = 'setAlwaysOpenOtherTab' | 'setInKibelaLinkOpenSameTab' | 'setExcludeUrlInputValidation' | 'setExcludeUrlInput'
+type ActionType = 'setAlwaysOpenOtherTab' | 'setInKibelaLinkOpenSameTab' | 'setExcludeUrlInputValidation' | 'setExcludeUrlInput' | "setExcludeUrlList"
 
 type Action = {
     type: ActionType;
@@ -42,6 +42,13 @@ export const localSettingsReducer = (state: State, action: Action): State => {
         return {
             ...state,
             excludeUrlInput: payloadString
+        }
+    }
+    if (action.type === "setExcludeUrlList") {
+        const payloadArray = Array.isArray(action.payload) ? action.payload : []
+        return {
+            ...state,
+            excludeUrlList: payloadArray
         }
     }
     return state;

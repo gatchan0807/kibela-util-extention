@@ -8,9 +8,6 @@ import {
 } from '../utils';
 
 export const Settings: React.FC = () => {
-  const initialExcludeUrlList: ExcludeUrl[] = [];
-  const [excludeUrlList, setExcludeUrlList] = useState(initialExcludeUrlList);
-
   const initState: State = {
     alwaysOpenOtherTab: true,
     inKibelaLinkOpenSameTab: false,
@@ -23,7 +20,9 @@ export const Settings: React.FC = () => {
 
   const excludeUrlInputHandler = async (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      if (!localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)) {
+      if (
+        !localSettings.excludeUrlInput.match(/^https?:\/\/[-_.a-zA-Z0-9\/:]+/g)
+      ) {
         dispatch({
           type: 'setExcludeUrlInputValidation',
           payload: 'https://から始まるURLの記法で入力してください',
@@ -33,7 +32,7 @@ export const Settings: React.FC = () => {
 
       const { host } = new URL(localSettings.excludeUrlInput);
       const id = await sha256(host);
-      if (excludeUrlList.find((item) => item.id === id)) {
+      if (localSettings.excludeUrlList.find((item) => item.id === id)) {
         dispatch({
           type: 'setExcludeUrlInputValidation',
           payload: 'すでに同じ例外ドメインが登録済みです',
@@ -46,7 +45,7 @@ export const Settings: React.FC = () => {
 
       urlList.push({ url: localSettings.excludeUrlInput, id, host });
 
-      setExcludeUrlList(urlList);
+      dispatch({ type: 'setExcludeUrlList', payload: urlList });
       dispatch({
         type: 'setExcludeUrlInputValidation',
         payload: '',
@@ -60,7 +59,7 @@ export const Settings: React.FC = () => {
     const urlList = (targetBlankSettings.excludeUrlList as ExcludeUrl[]) ?? [];
     const deletedUrlList = urlList.filter((urlItem) => urlItem.id !== id);
 
-    setExcludeUrlList(deletedUrlList);
+    dispatch({ type: 'setExcludeUrlList', payload: deletedUrlList });
     setChromeStorage({
       ...targetBlankSettings,
       excludeUrlList: deletedUrlList,
@@ -78,7 +77,10 @@ export const Settings: React.FC = () => {
         type: 'setInKibelaLinkOpenSameTab',
         payload: targetBlankSettings.inKibelaLinkOpenSameTab,
       });
-      setExcludeUrlList(targetBlankSettings.excludeUrlList);
+      dispatch({
+        type: 'setExcludeUrlList',
+        payload: targetBlankSettings.excludeUrlList,
+      });
     })();
   }, []);
 
