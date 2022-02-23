@@ -1,11 +1,12 @@
 import { ExcludeUrl } from "../types";
 
-type ActionType = 'setAlwaysOpenOtherTab' | 'setInKibelaLinkOpenSameTab' | 'setExcludeUrlInputValidation' | 'setExcludeUrlInput' | "setExcludeUrlList"
+export type Action =
+    { type: 'setAlwaysOpenOtherTab', payload: boolean } |
+    { type: 'setInKibelaLinkOpenSameTab', payload: boolean } |
+    { type: 'setExcludeUrlInputValidation', payload: string } |
+    { type: 'setExcludeUrlInput', payload: string } |
+    { type: "setExcludeUrlList", payload: ExcludeUrl[] }
 
-export type Action = {
-    type: ActionType;
-    payload?: unknown
-};
 
 export type State = {
     alwaysOpenOtherTab: boolean;
