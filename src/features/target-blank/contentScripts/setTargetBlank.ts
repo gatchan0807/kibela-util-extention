@@ -21,7 +21,7 @@ export const setTargetBlank = (settings: TargetBlankSettings) => {
                 return
             }
         } catch (e) {
-            console.log(element.href);
+            console.error("Caused URL:", element.href);
             console.error(e);
         }
         element.setTargetBlankAttribute(element.rawElement)
