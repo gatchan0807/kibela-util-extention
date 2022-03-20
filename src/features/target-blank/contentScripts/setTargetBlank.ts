@@ -15,12 +15,14 @@ export const setTargetBlank = (settings: TargetBlankSettings) => {
             return
         }
         try {
-            const { host } = new URL(element.href)
+            const href = element.isUserMention || element.isSameSiteLink ? `${location.origin}${element.href}` : element.href
+            const { host } = new URL(href)
             if (excludeUrlList.includes(host)) {
                 return
             }
-        } catch (e) { 
-            console.log(e);
+        } catch (e) {
+            console.log(element.href);
+            console.error(e);
         }
         element.setTargetBlankAttribute(element.rawElement)
     })
