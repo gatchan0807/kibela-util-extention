@@ -12,7 +12,8 @@
     "run:chrome": "web-ext run -s dist-chrome -t chromium",
     "package:firefox": "echo \"=== つかえないよ！！===\"; web-ext build -s dist-firefox --overwrite-dest",
     "package:chrome": "yarn clean:chrome && yarn build:chrome && zip -r packaged/dist-chrome.zip dist-chrome",
-    "test": "jest"
+    "test": "jest",
+    "test:ci": "jest --ci --maxWorkers=4 --runInBand"
   },
   "dependencies": {
     "@types/chrome": "^0.0.178",
