@@ -11,12 +11,12 @@ type DOMElement = {
     setTargetBlankAttribute: (e: Element) => void,
     rawElement: Element,
 }
-const allATag = document.querySelectorAll(".markdown-body a[href]")
 const setTargetBlankAttribute = (element: Element) => {
     element.setAttribute("target", "_blank")
     element.setAttribute("rel", "noopener noreferrer")
 }
 
+const allATag = document.querySelectorAll(".markdown-body a[href]")
 allATag.forEach(e => {
     const className = e.getAttribute("class") ?? ""
     const isAnchorLink = className.includes("anchor")
