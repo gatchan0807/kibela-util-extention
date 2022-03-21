@@ -133,6 +133,4 @@ describe('target-blank > reducer', () => {
         })
         expect(actual3).toEqual(expected3)
     })
-
-
 })
