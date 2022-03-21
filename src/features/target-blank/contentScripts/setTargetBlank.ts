@@ -2,10 +2,10 @@ import { TargetBlankSettings } from "../types"
 import { convertDomElement, DOMElement, getPreviewObserver, SELECTOR } from "./domAdapter"
 
 export const setTargetBlank = (settings: TargetBlankSettings) => {
-    const observer = getPreviewObserver({ settings, effectToDom })
     const previewBox = document.querySelector(SELECTOR.previewWrapper);
 
     if (previewBox) {
+        const observer = getPreviewObserver({ settings, effectToDom })
         observer.observe(previewBox, {
             childList: true,
             subtree: true
