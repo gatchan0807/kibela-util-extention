@@ -1,9 +1,9 @@
 import { TargetBlankSettings } from "../types"
 
-type TargetType = "main" | "preview"
-export const SELECTOR: { [key in TargetType]: string } = {
+export const SELECTOR = {
     main: ".markdown-body a[href]",
-    preview: ".previewBox > div"
+    preview: ".previewBox .markdown-body a[href]",
+    previewWrapper: ".previewBox > div",
 }
 
 export type DOMElement = {
@@ -47,21 +47,14 @@ export const convertDomElement = (elementList: NodeListOf<Element>) => {
 
 
 export const getPreviewObserver = ({ settings, effectToDom }: { settings: TargetBlankSettings, effectToDom: Function }) => {
-    return new MutationObserver(records => {
-        const [_before, after] = records
-        const firstChild = after.addedNodes[0] as Element
+    return new MutationObserver(_ => {
+        const rawElements = document.querySelectorAll(SELECTOR.preview)
+        let elements: DOMElement[] = []
 
-        if (firstChild && firstChild.classList.contains("markdown-body")) {
-            const rawElements = firstChild.querySelectorAll("a[href]")
-            let elements: DOMElement[] = []
-
-            if (rawElements) {
-                elements = convertDomElement(rawElements)
-            }
-            
-            effectToDom(elements, settings)
-        } else if (firstChild && firstChild.classList.contains("previewBox-placeholder")) {
-            console.log("preview disable");
+        if (rawElements) {
+            elements = convertDomElement(rawElements)
         }
+
+        effectToDom(elements, settings)
     })
 }
