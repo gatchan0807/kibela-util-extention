@@ -1,4 +1,4 @@
-import { TargetBlankSettings } from "../types"
+import { DOMElement, EffectsDomFunction, TargetBlankSettings } from "../types"
 
 export const SELECTOR = {
     main: ".markdown-body a[href]",
@@ -6,19 +6,7 @@ export const SELECTOR = {
     previewWrapper: ".previewBox > div",
 }
 
-export type DOMElement = {
-    href: string,
-    className: string,
-    idName: string,
-    isSameSiteLink: boolean,
-    isUserMention: boolean,
-    isAnchorLink: boolean,
-    hasTargetBlank: boolean,
-    setTargetBlankAttribute: (e: Element) => void,
-    rawElement: Element,
-}
-
-export const convertDomElement = (elementList: NodeListOf<Element>) => {
+export const convertDomElement = (elementList: NodeListOf<Element>): DOMElement[] => {
     const temporaryList: DOMElement[] = []
     elementList.forEach(e => {
         const className = e.getAttribute("class") ?? ""
@@ -45,8 +33,7 @@ export const convertDomElement = (elementList: NodeListOf<Element>) => {
     return temporaryList
 }
 
-
-export const getPreviewObserver = ({ settings, effectToDom }: { settings: TargetBlankSettings, effectToDom: Function }) => {
+export const getPreviewObserver = ({ settings, effectsDom }: { settings: TargetBlankSettings, effectsDom: EffectsDomFunction }) => {
     return new MutationObserver(_ => {
         const rawElements = document.querySelectorAll(SELECTOR.preview)
         let elements: DOMElement[] = []
@@ -55,6 +42,6 @@ export const getPreviewObserver = ({ settings, effectToDom }: { settings: Target
             elements = convertDomElement(rawElements)
         }
 
-        effectToDom(elements, settings)
+        effectsDom({ elements, settings })
     })
 }
