@@ -4,8 +4,10 @@ import { getSettingsAboutTargetBlank } from "../features/target-blank/utils/getS
 
 (async () => {
     console.log("Running 木べら！！ on feature of TargetBlank");
-    
+
     const settings = await getSettingsAboutTargetBlank()
-    startPreviewBoxObserve(settings)
+    if (settings.isOpenOtherTabInPreview) {
+        startPreviewBoxObserve(settings)
+    }
     await setTargetBlank(settings)
 })()
