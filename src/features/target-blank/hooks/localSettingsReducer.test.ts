@@ -55,6 +55,23 @@ describe('target-blank > reducer', () => {
         expect(actual2).toEqual(expected2)
     })
 
+    test("isOpenOtherTabInPreview のみBooleanの値で更新する", () => {
+        const expected1: State = {
+            ...initialState,
+            isOpenOtherTabInPreview: false
+        }
+
+        const actual1 = localSettingsReducer(initialState, { type: "setIsOpenOtherTabInPreview", payload: false })
+        expect(actual1).toEqual(expected1)
+
+        const expected2: State = {
+            ...initialState,
+            isOpenOtherTabInPreview: true
+        }
+        const actual2 = localSettingsReducer(initialState, { type: "setIsOpenOtherTabInPreview", payload: true })
+        expect(actual2).toEqual(expected2)
+    })
+
     test("excludeUrlInput のみString（URL）の値で更新する", () => {
         const expected1: State = {
             ...initialState,
