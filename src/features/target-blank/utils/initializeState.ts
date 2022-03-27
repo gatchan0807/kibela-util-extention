@@ -15,4 +15,8 @@ export const initializeState = async (dispatch: React.Dispatch<Action>) => {
         type: 'setExcludeUrlList',
         payload: targetBlankSettings.excludeUrlList,
     });
+    dispatch({
+        type: "setIsOpenOtherTabInPreview",
+        payload: targetBlankSettings.isOpenOtherTabInPreview,
+    });
 };

@@ -5,6 +5,7 @@ export const setChromeStorage = async ({
     inKibelaLinkOpenSameTab,
     alwaysOpenOtherTab,
     excludeUrlList,
+    isOpenOtherTabInPreview,
 }: TargetBlankSettings) => {
     const targetBlankSettings = await getSettingsAboutTargetBlank();
 
@@ -12,6 +13,7 @@ export const setChromeStorage = async ({
         targetBlankSettings: {
             ...targetBlankSettings,
             inKibelaLinkOpenSameTab,
+            isOpenOtherTabInPreview,
             alwaysOpenOtherTab,
             excludeUrlList,
         },
