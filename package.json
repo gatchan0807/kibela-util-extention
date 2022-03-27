@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "ts-node -T build.ts --firefox --chrome",
+    "type-check": "npx tsc --noEmit",
     "clean:chrome": "rimraf dist-chrome",
     "clean:firefox": "rimraf dist-firefox",
     "build:firefox": "ts-node -T build.ts --firefox",
