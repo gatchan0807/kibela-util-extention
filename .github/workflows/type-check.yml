@@ -1,0 +1,29 @@
+name: Run type check
+
+on: 
+  pull_request:
+    paths:
+      - "src/**"
+      - "lib/**"
+
+jobs:
+  run_type_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - uses: actions/cache@v2
+        id: node_modules-cache
+        with:
+          path: frontend/node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --pure-lockfile --ignore-optional --network-concurrency 1
+      - name: yarn type-check
+        id: run_type_check
+        run: |
+          yarn type-check
