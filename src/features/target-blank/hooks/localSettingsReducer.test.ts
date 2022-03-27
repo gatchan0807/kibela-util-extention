@@ -4,6 +4,7 @@ describe('target-blank > reducer', () => {
     let initialState: State = {
         alwaysOpenOtherTab: false,
         inKibelaLinkOpenSameTab: false,
+        isOpenOtherTabInPreview: false,
         excludeUrlInput: "",
         excludeUrlList: [],
         excludeUrlInputValidation: "",
@@ -13,6 +14,7 @@ describe('target-blank > reducer', () => {
         initialState = {
             alwaysOpenOtherTab: false,
             inKibelaLinkOpenSameTab: false,
+            isOpenOtherTabInPreview: false,
             excludeUrlInput: "",
             excludeUrlList: [],
             excludeUrlInputValidation: "",
@@ -50,6 +52,23 @@ describe('target-blank > reducer', () => {
             inKibelaLinkOpenSameTab: true
         }
         const actual2 = localSettingsReducer(initialState, { type: "setInKibelaLinkOpenSameTab", payload: true })
+        expect(actual2).toEqual(expected2)
+    })
+
+    test("isOpenOtherTabInPreview のみBooleanの値で更新する", () => {
+        const expected1: State = {
+            ...initialState,
+            isOpenOtherTabInPreview: false
+        }
+
+        const actual1 = localSettingsReducer(initialState, { type: "setIsOpenOtherTabInPreview", payload: false })
+        expect(actual1).toEqual(expected1)
+
+        const expected2: State = {
+            ...initialState,
+            isOpenOtherTabInPreview: true
+        }
+        const actual2 = localSettingsReducer(initialState, { type: "setIsOpenOtherTabInPreview", payload: true })
         expect(actual2).toEqual(expected2)
     })
 

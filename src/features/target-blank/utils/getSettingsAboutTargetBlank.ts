@@ -8,11 +8,13 @@ export const getSettingsAboutTargetBlank: () => Promise<TargetBlankSettings> = (
             const result: TargetBlankSettings = targetBlankSettings ? {
                 alwaysOpenOtherTab: targetBlankSettings.alwaysOpenOtherTab ?? true,
                 inKibelaLinkOpenSameTab: targetBlankSettings.inKibelaLinkOpenSameTab ?? false,
-                excludeUrlList: targetBlankSettings.excludeUrlList ?? []
+                isOpenOtherTabInPreview: targetBlankSettings.isOpenOtherTabInPreview ?? true,
+                excludeUrlList: targetBlankSettings.excludeUrlList ?? [],
             } : {
                 alwaysOpenOtherTab: true,
                 inKibelaLinkOpenSameTab: false,
-                excludeUrlList: []
+                isOpenOtherTabInPreview: true,
+                excludeUrlList: [],
             }
             return resolve(result)
         })

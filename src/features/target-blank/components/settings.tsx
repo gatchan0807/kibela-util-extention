@@ -7,6 +7,7 @@ export const Settings: React.FC = () => {
   const initState: State = {
     alwaysOpenOtherTab: true,
     inKibelaLinkOpenSameTab: false,
+    isOpenOtherTabInPreview: true,
     excludeUrlInput: '',
     excludeUrlList: [],
     excludeUrlInputValidation: '',
@@ -22,11 +23,13 @@ export const Settings: React.FC = () => {
     setChromeStorage({
       alwaysOpenOtherTab: localSettings.alwaysOpenOtherTab,
       inKibelaLinkOpenSameTab: localSettings.inKibelaLinkOpenSameTab,
+      isOpenOtherTabInPreview: localSettings.isOpenOtherTabInPreview,
       excludeUrlList: localSettings.excludeUrlList,
     });
   }, [
     localSettings.alwaysOpenOtherTab,
     localSettings.inKibelaLinkOpenSameTab,
+    localSettings.isOpenOtherTabInPreview,
     localSettings.excludeUrlList,
   ]);
 
@@ -52,6 +55,27 @@ export const Settings: React.FC = () => {
           htmlFor="always-open-another-tab"
         >
           デフォルトでリンクを別タブで開く
+        </label>
+      </div>
+      <div className="text-base">
+        <input
+          className="mx-2"
+          type="checkbox"
+          name="is-open-other-tab-in-preview"
+          id="is-open-other-tab-in-preview"
+          checked={localSettings.isOpenOtherTabInPreview}
+          onChange={() =>
+            dispatch({
+              type: 'setIsOpenOtherTabInPreview',
+              payload: !localSettings.isOpenOtherTabInPreview,
+            })
+          }
+        />
+        <label
+          className="leading-tight hover:cursor-pointer"
+          htmlFor="is-open-other-tab-in-preview"
+        >
+          記事編集プレビュー画面のリンクを別タブで開く
         </label>
       </div>
       <div className="pb-2 text-base">
