@@ -61,6 +61,27 @@ export const Settings: React.FC = () => {
         <input
           className="mx-2"
           type="checkbox"
+          name="is-open-other-tab-in-preview"
+          id="is-open-other-tab-in-preview"
+          checked={localSettings.isOpenOtherTabInPreview}
+          onChange={() =>
+            dispatch({
+              type: 'setIsOpenOtherTabInPreview',
+              payload: !localSettings.isOpenOtherTabInPreview,
+            })
+          }
+        />
+        <label
+          className="leading-tight hover:cursor-pointer"
+          htmlFor="is-open-other-tab-in-preview"
+        >
+          記事編集プレビュー画面のリンクを別タブで開く
+        </label>
+      </div>
+      <div className="pb-2 text-base">
+        <input
+          className="mx-2"
+          type="checkbox"
           name="in-kibela-link-open-same-tab"
           id="in-kibela-link-open-same-tab"
           checked={localSettings.inKibelaLinkOpenSameTab}
@@ -76,27 +97,6 @@ export const Settings: React.FC = () => {
           htmlFor="in-kibela-link-open-same-tab"
         >
           Kibela内の別記事 / ユーザーページへのリンクは同じタブで開く
-        </label>
-      </div>
-      <div className="pb-2 text-base">
-        <input
-          className="mx-2"
-          type="checkbox"
-          name="is-open-other-tab-in-preview"
-          id="is-open-other-tab-in-preview"
-          checked={localSettings.isOpenOtherTabInPreview}
-          onChange={() =>
-            dispatch({
-              type: 'setIsOpenOtherTabInPreview',
-              payload: !localSettings.isOpenOtherTabInPreview,
-            })
-          }
-        />
-        <label
-          className="leading-tight hover:cursor-pointer"
-          htmlFor="is-open-other-tab-in-preview"
-        >
-          記事編集プレビュー画面でも別タブで開く
         </label>
       </div>
       <div className="mx-auto w-11/12 border-b border-gray-300">
