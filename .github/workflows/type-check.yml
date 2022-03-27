@@ -26,4 +26,4 @@ jobs:
       - name: yarn type-check
         id: run_type_check
         run: |
-          yarn type-check
+          yarn tsc --noEmit
