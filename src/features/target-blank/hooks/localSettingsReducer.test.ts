@@ -4,6 +4,7 @@ describe('target-blank > reducer', () => {
     let initialState: State = {
         alwaysOpenOtherTab: false,
         inKibelaLinkOpenSameTab: false,
+        isOpenOtherTabInPreview: false,
         excludeUrlInput: "",
         excludeUrlList: [],
         excludeUrlInputValidation: "",
@@ -13,6 +14,7 @@ describe('target-blank > reducer', () => {
         initialState = {
             alwaysOpenOtherTab: false,
             inKibelaLinkOpenSameTab: false,
+            isOpenOtherTabInPreview: false,
             excludeUrlInput: "",
             excludeUrlList: [],
             excludeUrlInputValidation: "",

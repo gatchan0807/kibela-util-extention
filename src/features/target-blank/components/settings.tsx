@@ -7,6 +7,7 @@ export const Settings: React.FC = () => {
   const initState: State = {
     alwaysOpenOtherTab: true,
     inKibelaLinkOpenSameTab: false,
+    isOpenOtherTabInPreview: true,
     excludeUrlInput: '',
     excludeUrlList: [],
     excludeUrlInputValidation: '',
@@ -22,11 +23,13 @@ export const Settings: React.FC = () => {
     setChromeStorage({
       alwaysOpenOtherTab: localSettings.alwaysOpenOtherTab,
       inKibelaLinkOpenSameTab: localSettings.inKibelaLinkOpenSameTab,
+      isOpenOtherTabInPreview: localSettings.isOpenOtherTabInPreview,
       excludeUrlList: localSettings.excludeUrlList,
     });
   }, [
     localSettings.alwaysOpenOtherTab,
     localSettings.inKibelaLinkOpenSameTab,
+    localSettings.isOpenOtherTabInPreview,
     localSettings.excludeUrlList,
   ]);
 

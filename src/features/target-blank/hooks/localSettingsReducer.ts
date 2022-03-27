@@ -3,6 +3,7 @@ import { ExcludeUrl } from "../types";
 export type Action =
     { type: 'setAlwaysOpenOtherTab', payload: boolean } |
     { type: 'setInKibelaLinkOpenSameTab', payload: boolean } |
+    { type: 'setIsOpenOtherTabInPreview', payload: boolean } |
     { type: 'setExcludeUrlInputValidation', payload: string } |
     { type: 'setExcludeUrlInput', payload: string } |
     { type: "setExcludeUrlList", payload: ExcludeUrl[] }
@@ -11,6 +12,7 @@ export type Action =
 export type State = {
     alwaysOpenOtherTab: boolean;
     inKibelaLinkOpenSameTab: boolean;
+    isOpenOtherTabInPreview: boolean;
     excludeUrlInput: string;
     excludeUrlList: ExcludeUrl[];
     excludeUrlInputValidation: string;
@@ -27,6 +29,12 @@ export const localSettingsReducer = (state: State, action: Action): State => {
         return {
             ...state,
             inKibelaLinkOpenSameTab: action.payload
+        }
+    }
+    if (action.type === "setIsOpenOtherTabInPreview") {
+        return {
+            ...state,
+            isOpenOtherTabInPreview: action.payload
         }
     }
     if (action.type === "setExcludeUrlInputValidation") {

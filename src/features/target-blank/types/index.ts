@@ -1,6 +1,7 @@
 export type TargetBlankSettings = {
     alwaysOpenOtherTab: boolean
     inKibelaLinkOpenSameTab: boolean
+    isOpenOtherTabInPreview: boolean
     excludeUrlList: ExcludeUrl[]
 }
 
