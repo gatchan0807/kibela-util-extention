@@ -1,13 +1,17 @@
-import React from 'react';
-
-export type State = {
-  featureSwitch: boolean;
-};
+import React, { useEffect, useReducer } from 'react';
+import { initializeState } from '../hooks/initializeState';
+import { localSettingsReducer, UIState } from '../hooks/localSettingsReducer';
 
 export const Settings: React.FC = () => {
-  const initState: State = {
-    featureSwitch: false,
+  const initialState: UIState = {
+    featureSwitch: true,
   };
+
+  const [localSettings, dispatch] = useReducer(localSettingsReducer, initialState);
+
+  useEffect(() => {
+    initializeState(dispatch);
+  }, []);
 
   return (
     <div className="text-gray-800">
@@ -20,8 +24,8 @@ export const Settings: React.FC = () => {
           type="checkbox"
           name="use-template-search"
           id="use-template-search"
-          checked={false}
-          onChange={() => console.log('input changed!')}
+          checked={localSettings.featureSwitch}
+          onChange={() => dispatch({type: "setUseTemplateSearch", payload: !localSettings.featureSwitch})}
         />
         <label className="hover:cursor-pointer" htmlFor="use-template-search">
           テンプレート検索機能を使う
