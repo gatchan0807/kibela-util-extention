@@ -1,20 +1,27 @@
 import { TemplateSearchSettings } from "../hooks/getSettingsAboutTemplateSearch"
-import { convertDomElement, DOMElement, SELECTOR } from "./domAdapter"
+import { convertDomElements, DOMElement, getRawElements, SELECTOR } from "./domAdapter"
 
 export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings) => {
-    const rawTriggerButton = document.querySelector(SELECTOR.triggerButton)
-    if (rawTriggerButton) {
+    const triggerButton = document.querySelector(SELECTOR.triggerButton)
+    if (triggerButton) {
         // memo: 元のボタンのイベントリスナは削除するのがちょっと大変なので、元のイベント実行とそれに伴うDOM表示は許容する予定
-        rawTriggerButton.addEventListener("click", () => { 
-            console.log("clicked") 
+        triggerButton.addEventListener("click", async () => {
+            const rawElements = await (async () => {
+                try {
+                    return await getRawElements()
+                } catch (e) {
+                    return null
+                }
+            })()
+
+            if (rawElements) {
+                const elements = convertDomElements(rawElements)
+                // todo: convert items
+            }
+
+            // todo: mountModalToDom(items) 
+            
         })
-    }
-
-    const rawElements = document.querySelectorAll(SELECTOR.templateContainer)
-    let elements: DOMElement[] = []
-
-    if (rawElements) {
-        elements = convertDomElement(rawElements)
     }
     console.log(templateSearchSettings)
     return
