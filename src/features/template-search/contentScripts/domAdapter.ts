@@ -1,3 +1,4 @@
+import { getFavoriteTemplateList } from "../hooks/getFavoriteTemplateList"
 import { sha256 } from "./sha256"
 
 export const SELECTOR = {
@@ -40,18 +41,16 @@ const getWorkspaceId = (): string => {
     return window.location.host.split(".")[0]
 }
 
-export const convertTemplate = (elements: DOMElement[]): Template[] => {
+export const convertTemplate = async (elements: DOMElement[]): Promise<Template[]> => {
     const workspaceId = getWorkspaceId()
     const result: Template[] = []
+    const { ids } = await getFavoriteTemplateList()
 
-    elements.forEach(async (element) => {
+    for (const element of elements) {
         const titleHash = await sha256(element.title)
-
-        // todo: get favorite templates from chrome storage 
-        // todo: set isFavorite
-
-        result.push({ ...element, isFavorite: false, id: `${workspaceId}-${titleHash}` })
-    })
+        const id = `${workspaceId}-${titleHash}`
+        result.push({ ...element, isFavorite: ids.includes(id), id } as Template)
+    }
 
     return result
 }
