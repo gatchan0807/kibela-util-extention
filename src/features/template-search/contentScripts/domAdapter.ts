@@ -10,6 +10,11 @@ export type DOMElement = {
     rawElement: Element,
 }
 
+export type Template = DOMElement & {
+    isFavorite: boolean,
+    id: string
+}
+
 export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement[] => {
     const result: DOMElement[] = []
     let index = 0
@@ -17,7 +22,7 @@ export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement
         index++
         // 一番最後のリンクはテンプレート管理ページヘのリンクなので除外
         if (index >= elementList.length) return
-        
+
         result.push({
             title: element.textContent ?? "[ERROR] 情報取得失敗",
             href: element.getAttribute("href") ?? "/",
@@ -29,8 +34,17 @@ export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement
     return result
 }
 
-export const mountModalToDom = (elements: Element[] | null) => {
-    if (elements === null) {
+export const convertTemplate = (elements: DOMElement[]): Template[] => {
+    return elements.map(element => {
+        // todo: set template id based title and workspace id(subdomain)
+        // todo: get favorite templates from chrome storage 
+        // todo: set isFavorite
+        return { ...element, isFavorite: false, id: "" }
+    })
+}
+
+export const mountModalToDom = (templates: Template[] | null) => {
+    if (templates === null) {
         // render error message
         return
     }
