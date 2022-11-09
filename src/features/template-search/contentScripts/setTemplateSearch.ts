@@ -1,5 +1,5 @@
 import { TemplateSearchSettings } from "../hooks/getSettingsAboutTemplateSearch"
-import { convertDomElements, DOMElement, getRawElements, SELECTOR } from "./domAdapter"
+import { convertDomElements, getRawElements, SELECTOR } from "./domAdapter"
 
 export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings) => {
     const triggerButton = document.querySelector(SELECTOR.triggerButton)
@@ -16,11 +16,13 @@ export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings
 
             if (rawElements) {
                 const elements = convertDomElements(rawElements)
+                console.log(elements);
+
                 // todo: convert items
             }
 
             // todo: mountModalToDom(items) 
-            
+
         })
     }
     console.log(templateSearchSettings)
