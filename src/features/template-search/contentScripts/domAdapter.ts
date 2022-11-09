@@ -34,7 +34,13 @@ export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement
     return result
 }
 
+const getWorkspaceId = (): string => {
+    return window.location.host.split(".")[0]
+}
+
 export const convertTemplate = (elements: DOMElement[]): Template[] => {
+    const workspaceId = getWorkspaceId()
+
     return elements.map(element => {
         // todo: set template id based title and workspace id(subdomain)
         // todo: get favorite templates from chrome storage 
