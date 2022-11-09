@@ -1,3 +1,5 @@
+import { sha256 } from "./sha256"
+
 export const SELECTOR = {
     triggerButton: "div.headerNavigation-postButton a.is-button-withDropdown-rightPart",
     templateContainer: "div.postButtonDropdownContainer ul.postButtonDropdown-list:nth-child(2) > li > a",
@@ -40,13 +42,18 @@ const getWorkspaceId = (): string => {
 
 export const convertTemplate = (elements: DOMElement[]): Template[] => {
     const workspaceId = getWorkspaceId()
+    const result: Template[] = []
 
-    return elements.map(element => {
-        // todo: set template id based title and workspace id(subdomain)
+    elements.forEach(async (element) => {
+        const titleHash = await sha256(element.title)
+
         // todo: get favorite templates from chrome storage 
         // todo: set isFavorite
-        return { ...element, isFavorite: false, id: "" }
+
+        result.push({ ...element, isFavorite: false, id: `${workspaceId}-${titleHash}` })
     })
+
+    return result
 }
 
 export const mountModalToDom = (templates: Template[] | null) => {
