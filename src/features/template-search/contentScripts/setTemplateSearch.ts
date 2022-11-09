@@ -16,7 +16,8 @@ export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings
 
             if (rawElements) {
                 const elements = convertDomElements(rawElements)
-                const templates = convertTemplate(elements)                
+                const templates = await convertTemplate(elements)
+
                 // todo: mountModalToDom(templates) 
             } else {
                 // todo: mountModalToDom(null) 
