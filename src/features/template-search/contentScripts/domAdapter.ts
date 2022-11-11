@@ -1,3 +1,4 @@
+import { MountModal } from "../components/modal"
 import { getFavoriteTemplateList } from "../hooks/getFavoriteTemplateList"
 import { sha256 } from "./sha256"
 
@@ -60,8 +61,7 @@ export const mountModalToDom = (templates: Template[] | null) => {
         // render error message
         return
     }
-
-    // render modal
+    MountModal()
     return
 }
 
