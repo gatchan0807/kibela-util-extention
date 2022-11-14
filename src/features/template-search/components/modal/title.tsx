@@ -11,6 +11,7 @@ const CloseButton = styled.button`
   font-size: 24px;
   line-height: 0;
   height: 32px;
+  cursor: pointer;
 `;
 
 const TitleHeader = styled.div`
