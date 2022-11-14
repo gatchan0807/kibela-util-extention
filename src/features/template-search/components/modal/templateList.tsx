@@ -52,11 +52,12 @@ const FavoriteButton = styled.button`
 
 export const TemplateList = (props: {
   templates: Template[];
+  visibleTemplates: Template[];
   dispatchTemplateId: (id: string) => void;
 }) => {
   return (
     <TemplateListWrapper>
-      {props.templates.map((t) => (
+      {props.visibleTemplates.map((t) => (
         <li key={t.id}>
           <TemplateWrapper
             href={t.href}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Template } from '../../contentScripts/setTemplateSearch';
 import { setFavoriteTemplateListToChromeStorage } from '../../hooks/setFavoriteTemplateListToChromeStorage';
+import { SearchInput } from './searchInput';
 import { TemplateList } from './templateList';
 import { Title } from './title';
 
@@ -42,6 +43,9 @@ type Props = {
 
 export const Modal: React.FC<Props> = (props: Props) => {
   const [templates, setTemplates] = useState(props.templates);
+  const [visibleTemplates, setVisibleTemplates] = useState(props.templates);
+  const [input, setInput] = useState('');
+
   const updateId = (id: string) => {
     const index = templates.findIndex((t) => t.id === id);
 
@@ -53,12 +57,40 @@ export const Modal: React.FC<Props> = (props: Props) => {
       const updatedTemplates = [...templates];
       updatedTemplates[index] = updated;
       setTemplates(updatedTemplates);
+
+      if (input.length > 0) {
+        const filtered = updatedTemplates.filter((t) => {
+          return (
+            t.title.indexOf(input) !== -1 ||
+            t.title.toUpperCase().indexOf(input.toUpperCase()) !== -1 ||
+            t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
+          );
+        });
+        setVisibleTemplates(filtered);
+      }
     }
   };
 
   useEffect(() => {
-    setFavoriteTemplateListToChromeStorage({ids: templates.filter(t => t.isFavorite).map(t => t.id)});
+    setFavoriteTemplateListToChromeStorage({
+      ids: templates.filter((t) => t.isFavorite).map((t) => t.id),
+    });
   }, [templates]);
+
+  useEffect(() => {
+    if (input.length > 0) {
+      const filtered = templates.filter((t) => {
+        return (
+          t.title.indexOf(input) !== -1 ||
+          t.title.toUpperCase().indexOf(input.toUpperCase()) !== -1 ||
+          t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
+        );
+      });
+      setVisibleTemplates(filtered);
+    } else {
+      setVisibleTemplates(templates);
+    }
+  }, [input]);
 
   return (
     <ModalWrapper>
@@ -69,8 +101,10 @@ export const Modal: React.FC<Props> = (props: Props) => {
       ></Background>
       <Wrapper>
         <Title toggleModal={props.toggleModal}></Title>
+        <SearchInput input={input} setInput={setInput}></SearchInput>
         <TemplateList
           templates={templates}
+          visibleTemplates={visibleTemplates}
           dispatchTemplateId={updateId}
         ></TemplateList>
       </Wrapper>
