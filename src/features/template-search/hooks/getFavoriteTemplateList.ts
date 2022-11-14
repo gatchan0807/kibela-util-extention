@@ -8,7 +8,7 @@ export const getFavoriteTemplateList: () => Promise<FavoriteTemplateList> = () =
             const { favoriteTemplateList } = rawResult
 
             const result: FavoriteTemplateList = favoriteTemplateList ? {
-                ids: favoriteTemplateList ?? [],
+                ids: favoriteTemplateList.ids ?? [],
             } : {
                 ids: []
             }

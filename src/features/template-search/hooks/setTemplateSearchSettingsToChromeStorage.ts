@@ -1,6 +1,6 @@
 import { getSettingsAboutTemplateSearch, TemplateSearchSettings } from "./getSettingsAboutTemplateSearch";
 
-export const setChromeStorage = async ({
+export const setTemplateSearchSettingsToChromeStorage = async ({
     featureUsage
 }: TemplateSearchSettings) => {
     const templateSearchSettings = await getSettingsAboutTemplateSearch();

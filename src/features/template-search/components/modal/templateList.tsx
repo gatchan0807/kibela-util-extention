@@ -38,7 +38,7 @@ const FavoriteButton = styled.button`
   background-color: white;
 
   &:hover {
-    background-color: #d9edfc;
+    background-color: #f1f9ff;
   }
 
   &[data-is-favorite='true'] {
@@ -50,7 +50,10 @@ const FavoriteButton = styled.button`
   }
 `;
 
-export const TemplateList = (props: { templates: Template[] }) => {
+export const TemplateList = (props: {
+  templates: Template[];
+  dispatchTemplateId: (id: string) => void;
+}) => {
   return (
     <TemplateListWrapper>
       {props.templates.map((t) => (
@@ -63,7 +66,10 @@ export const TemplateList = (props: { templates: Template[] }) => {
             <TemplateContents>
               <TemplateTitle>{t.title}</TemplateTitle>
               <FavoriteButton
-                onClick={(e) => e.preventDefault()}
+                onClick={(e) => {
+                  e.preventDefault();
+                  props.dispatchTemplateId(t.id);
+                }}
                 data-is-favorite={t.isFavorite}
               >
                 {t.isFavorite ? '★' : '☆'}

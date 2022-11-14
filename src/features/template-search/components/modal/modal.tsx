@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Template } from '../../contentScripts/setTemplateSearch';
+import { setFavoriteTemplateListToChromeStorage } from '../../hooks/setFavoriteTemplateListToChromeStorage';
 import { TemplateList } from './templateList';
 import { Title } from './title';
 
@@ -40,6 +41,25 @@ type Props = {
 };
 
 export const Modal: React.FC<Props> = (props: Props) => {
+  const [templates, setTemplates] = useState(props.templates);
+  const updateId = (id: string) => {
+    const index = templates.findIndex((t) => t.id === id);
+
+    if (templates[index]) {
+      const updated = {
+        ...templates[index],
+        isFavorite: !templates[index].isFavorite,
+      };
+      const updatedTemplates = [...templates];
+      updatedTemplates[index] = updated;
+      setTemplates(updatedTemplates);
+    }
+  };
+
+  useEffect(() => {
+    setFavoriteTemplateListToChromeStorage({ids: templates.filter(t => t.isFavorite).map(t => t.id)});
+  }, [templates]);
+
   return (
     <ModalWrapper>
       <Background
@@ -49,7 +69,10 @@ export const Modal: React.FC<Props> = (props: Props) => {
       ></Background>
       <Wrapper>
         <Title toggleModal={props.toggleModal}></Title>
-        <TemplateList templates={props.templates}></TemplateList>
+        <TemplateList
+          templates={templates}
+          dispatchTemplateId={updateId}
+        ></TemplateList>
       </Wrapper>
     </ModalWrapper>
   );
