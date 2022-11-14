@@ -1,5 +1,6 @@
 import { MountModal } from "../components/modal"
 import { getFavoriteTemplateList } from "../hooks/getFavoriteTemplateList"
+import { Template } from "./setTemplateSearch"
 import { sha256 } from "./sha256"
 
 export const SELECTOR = {
@@ -12,11 +13,6 @@ export type DOMElement = {
     href: string,
     index: number,
     rawElement: Element,
-}
-
-export type Template = DOMElement & {
-    isFavorite: boolean,
-    id: string
 }
 
 export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement[] => {
@@ -61,7 +57,8 @@ export const mountModalToDom = (templates: Template[] | null) => {
         // render error message
         return
     }
-    MountModal()
+
+    MountModal(templates)
     return
 }
 
