@@ -1,5 +1,5 @@
 import { Action } from "./localSettingsReducer";
-import { getSettingsAboutTemplateSearch } from "./getSettingsAboutTemplateSearch";
+import { getSettingsAboutTemplateSearch } from "../store/getSettingsAboutTemplateSearch";
 
 export const initializeState = async (dispatch: React.Dispatch<Action>) => {
     const templateSearchSettings = await getSettingsAboutTemplateSearch();

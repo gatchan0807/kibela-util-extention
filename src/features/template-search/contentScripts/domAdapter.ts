@@ -1,5 +1,5 @@
 import { MountModal } from "../components/modal"
-import { getFavoriteTemplateList } from "../hooks/getFavoriteTemplateList"
+import { getFavoriteTemplateList } from "../store/getFavoriteTemplateList"
 import { Template } from "./setTemplateSearch"
 import { sha256 } from "./sha256"
 

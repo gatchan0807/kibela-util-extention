@@ -1,4 +1,4 @@
-import { TemplateSearchSettings } from "../hooks/getSettingsAboutTemplateSearch"
+import { TemplateSearchSettings } from "../store/getSettingsAboutTemplateSearch"
 import { convertDomElements, convertTemplate, DOMElement, getRawElements, mountModalToDom, SELECTOR } from "./domAdapter"
 
 export type Template = DOMElement & {
