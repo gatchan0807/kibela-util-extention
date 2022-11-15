@@ -67,6 +67,8 @@ export const Modal: React.FC<Props> = (props: Props) => {
           );
         });
         setVisibleTemplates(filtered);
+      } else {
+        setVisibleTemplates(updatedTemplates);
       }
     }
   };
