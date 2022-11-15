@@ -11,8 +11,14 @@ export const MountModal = (templates: Template[]) => {
     const div = document.createElement('div');
     div.setAttribute('id', 'modal-wrapper');
     body.appendChild(div);
+    render(
+      <Modal templates={templates ?? []} toggleModal={MountModal}></Modal>,
+      div
+    );
 
-    render(<Modal templates={templates ?? []} toggleModal={MountModal}></Modal>, div);
+    const dropdown =
+      document.querySelector('.postButtonDropdownContainer') ?? new Element();
+    dropdown.setAttribute('style', 'display: none;');
   } else {
     modalWrapper.parentNode?.removeChild(modalWrapper);
   }
