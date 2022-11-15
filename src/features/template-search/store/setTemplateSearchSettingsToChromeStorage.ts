@@ -1,4 +1,5 @@
-import { getSettingsAboutTemplateSearch, TemplateSearchSettings } from "./getSettingsAboutTemplateSearch";
+import { getSettingsAboutTemplateSearch } from "./getSettingsAboutTemplateSearch";
+import { TemplateSearchSettings } from "./types";
 
 export const setTemplateSearchSettingsToChromeStorage = async ({
     featureUsage

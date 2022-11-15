@@ -1,6 +1,4 @@
-export type TemplateSearchSettings = {
-    featureUsage: boolean
-}
+import { TemplateSearchSettings } from "./types"
 
 export const getSettingsAboutTemplateSearch: () => Promise<TemplateSearchSettings> = () => {
     return new Promise((resolve) => {

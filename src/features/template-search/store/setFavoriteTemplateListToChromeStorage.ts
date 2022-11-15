@@ -1,4 +1,4 @@
-import { FavoriteTemplateList } from "./getFavoriteTemplateList";
+import { FavoriteTemplateList } from "./types";
 
 export const setFavoriteTemplateListToChromeStorage = async ({
     ids

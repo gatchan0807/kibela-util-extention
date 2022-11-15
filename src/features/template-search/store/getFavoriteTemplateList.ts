@@ -1,6 +1,4 @@
-export type FavoriteTemplateList = {
-    ids: string[]
-}
+import { FavoriteTemplateList } from "./types"
 
 export const getFavoriteTemplateList: () => Promise<FavoriteTemplateList> = () => {
     return new Promise((resolve) => {
