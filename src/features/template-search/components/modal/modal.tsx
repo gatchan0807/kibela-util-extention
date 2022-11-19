@@ -54,6 +54,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
 
   const [modal, dispatch] = useReducer(modalReducer, initialState);
 
+  // memo: 子要素のお気に入りボタン押下にフックして、テンプレート一覧のアップデート
   const updateId = (id: string) => {
     const index = templates.findIndex((t) => t.id === id);
 
@@ -82,12 +83,14 @@ export const Modal: React.FC<Props> = (props: Props) => {
     }
   };
 
+  // memo: Chrome StorageへのIDリストの保存
   useEffect(() => {
     setFavoriteTemplateListToChromeStorage({
       ids: templates.filter((t) => t.isFavorite).map((t) => t.id),
     });
   }, [templates]);
 
+  // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
   useEffect(() => {
     const input = modal.searchInput;
     if (input.length > 0) {
