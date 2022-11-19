@@ -26,6 +26,13 @@ const TemplateWrapper = styled.a`
   }
 `;
 
+const EmptyTemplateWrapper = styled.span`
+  color: #4d4d4d !important;
+  padding: 1rem;
+  display: block;
+  text-align: center;
+`;
+
 const TemplateTitle = styled.span`
   &:hover {
     text-decoration: underline;
@@ -58,28 +65,34 @@ export const TemplateList = (props: {
 }) => {
   return (
     <TemplateListWrapper>
-      {props.visibleTemplates.map((t) => (
-        <li key={t.id}>
-          <TemplateWrapper
-            href={t.href}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <TemplateContents>
-              <TemplateTitle>{t.title}</TemplateTitle>
-              <FavoriteButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  props.dispatchTemplateId(t.id);
-                }}
-                data-is-favorite={t.isFavorite}
-              >
-                {t.isFavorite ? '★' : '☆'}
-              </FavoriteButton>
-            </TemplateContents>
-          </TemplateWrapper>
-        </li>
-      ))}
+      {props.visibleTemplates.length > 0 ? (
+        props.visibleTemplates.map((t) => (
+          <li key={t.id}>
+            <TemplateWrapper
+              href={t.href}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <TemplateContents>
+                <TemplateTitle>{t.title}</TemplateTitle>
+                <FavoriteButton
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.dispatchTemplateId(t.id);
+                  }}
+                  data-is-favorite={t.isFavorite}
+                >
+                  {t.isFavorite ? '★' : '☆'}
+                </FavoriteButton>
+              </TemplateContents>
+            </TemplateWrapper>
+          </li>
+        ))
+      ) : (
+        <EmptyTemplateWrapper>
+          一致するテンプレートは0件です
+        </EmptyTemplateWrapper>
+      )}
     </TemplateListWrapper>
   );
 };
