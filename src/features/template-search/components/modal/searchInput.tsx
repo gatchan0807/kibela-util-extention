@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -54,6 +54,11 @@ export const SearchInput = (props: {
   setInput: (input: string) => void;
   toggleFavoriteFilter: (input: boolean) => void;
 }) => {
+  useEffect(() => {
+    const element = document.getElementById('modal-search-input');
+    element?.focus();
+  }, []);
+
   return (
     <InputWrapper>
       <input
@@ -63,6 +68,7 @@ export const SearchInput = (props: {
         value={props.input}
         type="text"
         placeholder="検索ワード"
+        id="modal-search-input"
       />
       <SwitchWrapper>
         <span>お気に入りのみ</span>
