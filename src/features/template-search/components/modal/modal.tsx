@@ -54,20 +54,8 @@ export const Modal: React.FC<Props> = (props: Props) => {
 
   // memo: 子要素のお気に入りボタン押下にフックして、テンプレート一覧のアップデート
   const updateId = (id: string) => {
-    const templates = modal.templateList;
-    const index = templates.findIndex((t) => t.id === id);
-
-    if (templates[index]) {
-      const updated = {
-        ...templates[index],
-        isFavorite: !templates[index].isFavorite,
-      };
-      const updatedTemplates = [...templates];
-      updatedTemplates[index] = updated;
-
-      dispatch({ type: 'setTemplateList', payload: updatedTemplates });
-      dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-    }
+    dispatch({ type: 'updateFavorite', payload: id });
+    dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
   };
 
   // memo: Chrome StorageへのIDリストの保存
