@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useModal } from '../../hooks/useModal';
 import { Template } from '../../store/types';
+import { LinkToTemplateSettings } from './linkToTemplateSettings';
 import { SearchInput } from './searchInput';
 import { TemplateList } from './templateList';
 import { Title } from './title';
@@ -64,6 +65,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
           visibleTemplates={property.visibleTemplateList}
           dispatchTemplateId={handlers.toggleFavorite}
         ></TemplateList>
+        <LinkToTemplateSettings></LinkToTemplateSettings>
       </Wrapper>
     </ModalWrapper>
   );
