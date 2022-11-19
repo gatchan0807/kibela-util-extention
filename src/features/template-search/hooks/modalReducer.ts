@@ -48,7 +48,10 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
         }
     }
     if (action.type === "updateFavorite") {
-        return updateFavorite({ state, id: action.payload })
+        return {
+            ...state,
+            templateList: updateFavorite({ templateList: state.templateList, id: action.payload })
+        }
     }
     return state;
 };
@@ -67,10 +70,9 @@ const filterTemplateList = ({ templateList, condition }: { templateList: Templat
     });
 }
 
-const updateFavorite = ({ state, id }: { state: ReducerState, id: string }): ReducerState => {
-    const { templateList } = state;
+const updateFavorite = ({ templateList, id }: { templateList: Template[], id: string }): Template[] => {
     const index = templateList.findIndex((t) => t.id === id);
-    if (!templateList[index]) return { ...state }
+    if (!templateList[index]) return templateList
 
     const updated = {
         ...templateList[index],
@@ -79,8 +81,5 @@ const updateFavorite = ({ state, id }: { state: ReducerState, id: string }): Red
     const updatedTemplates = [...templateList];
     updatedTemplates[index] = updated;
 
-    return {
-        ...state,
-        templateList: updatedTemplates
-    }
+    return updatedTemplates
 }
