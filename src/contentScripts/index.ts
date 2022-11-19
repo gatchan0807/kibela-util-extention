@@ -1,13 +1,17 @@
-import { setTargetBlank } from "../features/target-blank/contentScripts"
-import { startPreviewBoxObserve } from "../features/target-blank/contentScripts/startPreviewBoxObserve";
+import { setTargetBlank, startPreviewBoxObserve } from "../features/target-blank/contentScripts"
 import { getSettingsAboutTargetBlank } from "../features/target-blank/utils/getSettingsAboutTargetBlank";
+import { setTemplateSearch } from "../features/template-search/contentScripts";
+import { getSettingsAboutTemplateSearch } from "../features/template-search/store/getSettingsAboutTemplateSearch";
 
 (async () => {
-    console.log("Running 木べら！！ on feature of TargetBlank");
+    console.log("Running 木べら！！");
 
-    const settings = await getSettingsAboutTargetBlank()
-    if (settings.isOpenOtherTabInPreview) {
-        startPreviewBoxObserve(settings)
+    const targetBlankSettings = await getSettingsAboutTargetBlank()
+    if (targetBlankSettings.isOpenOtherTabInPreview) {
+        startPreviewBoxObserve(targetBlankSettings)
     }
-    await setTargetBlank(settings)
+    await setTargetBlank(targetBlankSettings)
+
+    const templateSearchSettings = await getSettingsAboutTemplateSearch()
+    await setTemplateSearch(templateSearchSettings)
 })()
