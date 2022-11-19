@@ -3,7 +3,7 @@ import { convertDomElements, convertTemplate, getRawElements, mountModalToDom, S
 
 export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings) => {
     const triggerButton = document.querySelector(SELECTOR.triggerButton)
-    if (triggerButton) {
+    if (triggerButton && templateSearchSettings.featureUsage) {
         // memo: 元のボタンのイベントリスナは削除するのがちょっと大変なので、元のイベント実行とそれに伴うDOM表示は許容する予定
         triggerButton.addEventListener("click", async () => {
             const rawElements = await (async () => {
