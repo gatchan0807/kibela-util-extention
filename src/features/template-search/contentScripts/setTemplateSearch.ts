@@ -1,10 +1,5 @@
 import { TemplateSearchSettings } from "../store/types"
-import { convertDomElements, convertTemplate, DOMElement, getRawElements, mountModalToDom, SELECTOR } from "./domAdapter"
-
-export type Template = DOMElement & {
-    isFavorite: boolean,
-    id: string
-}
+import { convertDomElements, convertTemplate, getRawElements, mountModalToDom, SELECTOR } from "./domAdapter"
 
 export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings) => {
     const triggerButton = document.querySelector(SELECTOR.triggerButton)

@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { initializeState } from '../hooks/initializeState';
+import { initializeLocalSettingState } from '../hooks/initializeLocalSettingState';
 import { localSettingsReducer, UIState } from '../hooks/localSettingsReducer';
 
 export const Settings: React.FC = () => {
@@ -10,7 +10,7 @@ export const Settings: React.FC = () => {
   const [localSettings, dispatch] = useReducer(localSettingsReducer, initialState);
 
   useEffect(() => {
-    initializeState(dispatch);
+    initializeLocalSettingState(dispatch);
   }, []);
 
   return (
