@@ -90,6 +90,11 @@ export const Modal: React.FC<Props> = (props: Props) => {
     });
   }, [templates]);
 
+  // memo: 初期化
+  useEffect(() => {
+    dispatch({ type: 'initializeTemplateList', payload: props.templates });
+  }, []);
+
   // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
   useEffect(() => {
     const input = modal.searchInput;
