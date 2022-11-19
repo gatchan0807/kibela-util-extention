@@ -11,7 +11,7 @@ const Background = styled.div`
   position: absolute;
   background: black;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   opacity: 0.5;
   z-index: 10;
   top: 0;
@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   position: absolute;
   left: 25%;
   width: 50%;
-  top: 5%;
+  top: 15vh;
   display: flex;
   justify-content: center;
   align-items: center;
