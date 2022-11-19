@@ -24,6 +24,5 @@ export const setTemplateSearch = (templateSearchSettings: TemplateSearchSettings
             }
         })
     }
-    console.log(templateSearchSettings)
     return
 }
