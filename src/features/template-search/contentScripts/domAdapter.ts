@@ -47,7 +47,7 @@ export const convertTemplate = async (elements: DOMElement[]): Promise<Template[
 
 export const mountModalToDom = (templates: Template[] | null) => {
     if (templates === null) {
-        // render error message
+        // todo: render error message
         return
     }
 
