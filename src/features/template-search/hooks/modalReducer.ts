@@ -7,7 +7,8 @@ export type Action =
     { type: 'setSearchInput', payload: string } |
     { type: 'setVisibleTemplateList', payload: Template[] } |
     { type: 'filterTemplateList', payload: string } |
-    { type: 'updateFavorite', payload: string }
+    { type: 'updateFavorite', payload: string } |
+    { type: 'filterTemplateListByFavorite', payload: boolean }
 
 export type ReducerState = {
     templateList: Template[],
@@ -51,6 +52,12 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
         return {
             ...state,
             templateList: updateFavorite({ templateList: state.templateList, id: action.payload })
+        }
+    }
+    if (action.type === "filterTemplateListByFavorite") {
+        return {
+            ...state,
+            visibleTemplateList: action.payload ? state.visibleTemplateList.filter(t => t.isFavorite) : state.visibleTemplateList
         }
     }
     return state;

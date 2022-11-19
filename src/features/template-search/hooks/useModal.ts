@@ -22,6 +22,7 @@ export const useModal = (props: Props) => {
     const updateId = (id: string) => {
         dispatch({ type: 'updateFavorite', payload: id });
         dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
+        dispatch({ type: "filterTemplateListByFavorite", payload: modal.isFilterByFavorite })
     };
 
     const setSearchInput = (value: string) => {
@@ -40,7 +41,8 @@ export const useModal = (props: Props) => {
     // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
     useEffect(() => {
         dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-    }, [modal.searchInput]);
+        dispatch({ type: "filterTemplateListByFavorite", payload: modal.isFilterByFavorite })
+    }, [modal.searchInput, modal.isFilterByFavorite]);
 
     // memo: Chrome StorageへのIDリストの保存
     useEffect(() => {
