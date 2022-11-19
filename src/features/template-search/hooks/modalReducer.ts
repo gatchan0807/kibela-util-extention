@@ -42,7 +42,10 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
         }
     }
     if (action.type === "filterTemplateList") {
-        return filterTemplateList({ state, condition: action.payload })
+        return {
+            ...state,
+            visibleTemplateList: filterTemplateList({ templateList: state.templateList, condition: action.payload })
+        }
     }
     if (action.type === "updateFavorite") {
         return updateFavorite({ state, id: action.payload })
@@ -50,26 +53,18 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
     return state;
 };
 
-const filterTemplateList = ({ state, condition }: { state: ReducerState, condition: string }): ReducerState => {
+const filterTemplateList = ({ templateList, condition }: { templateList: Template[], condition: string }): Template[] => {
     if (condition.length <= 0) {
-        return {
-            ...state,
-            visibleTemplateList: state.templateList
-        }
+        return templateList
     }
 
-    const filtered = state.templateList.filter((t) => {
+    return templateList.filter((t) => {
         return (
             t.title.indexOf(condition) !== -1 ||
             t.title.toUpperCase().indexOf(condition.toUpperCase()) !== -1 ||
             t.title.toLowerCase().indexOf(condition.toLowerCase()) !== -1
         );
     });
-
-    return {
-        ...state,
-        visibleTemplateList: filtered
-    }
 }
 
 const updateFavorite = ({ state, id }: { state: ReducerState, id: string }): ReducerState => {
