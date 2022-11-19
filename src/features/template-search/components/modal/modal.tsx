@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
+import { modalReducer, ReducerState } from '../../hooks/modalReducer';
 import { setFavoriteTemplateListToChromeStorage } from '../../store/setFavoriteTemplateListToChromeStorage';
 import { Template } from '../../store/types';
 import { SearchInput } from './searchInput';
@@ -44,7 +45,14 @@ type Props = {
 export const Modal: React.FC<Props> = (props: Props) => {
   const [templates, setTemplates] = useState(props.templates);
   const [visibleTemplates, setVisibleTemplates] = useState(props.templates);
-  const [input, setInput] = useState('');
+
+  const initialState: ReducerState = {
+    ids: [],
+    searchInput: '',
+    templateList: props.templates,
+  };
+
+  const [modal, dispatch] = useReducer(modalReducer, initialState);
 
   const updateId = (id: string) => {
     const index = templates.findIndex((t) => t.id === id);
@@ -58,6 +66,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
       updatedTemplates[index] = updated;
       setTemplates(updatedTemplates);
 
+      const input = modal.searchInput;
       if (input.length > 0) {
         const filtered = updatedTemplates.filter((t) => {
           return (
@@ -80,6 +89,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
   }, [templates]);
 
   useEffect(() => {
+    const input = modal.searchInput;
     if (input.length > 0) {
       const filtered = templates.filter((t) => {
         return (
@@ -92,7 +102,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
     } else {
       setVisibleTemplates(templates);
     }
-  }, [input]);
+  }, [modal.searchInput]);
 
   return (
     <ModalWrapper>
@@ -103,7 +113,12 @@ export const Modal: React.FC<Props> = (props: Props) => {
       ></Background>
       <Wrapper>
         <Title toggleModal={props.toggleModal}></Title>
-        <SearchInput input={input} setInput={setInput}></SearchInput>
+        <SearchInput
+          input={modal.searchInput}
+          setInput={(value) => {
+            dispatch({ type: 'setSearchInput', payload: value });
+          }}
+        ></SearchInput>
         <TemplateList
           templates={templates}
           visibleTemplates={visibleTemplates}
