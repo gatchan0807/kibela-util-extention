@@ -44,12 +44,12 @@ type Props = {
 
 export const Modal: React.FC<Props> = (props: Props) => {
   const [templates, setTemplates] = useState(props.templates);
-  const [visibleTemplates, setVisibleTemplates] = useState(props.templates);
 
   const initialState: ReducerState = {
     ids: [],
     searchInput: '',
     templateList: props.templates,
+    visibleTemplateList: props.templates,
   };
 
   const [modal, dispatch] = useReducer(modalReducer, initialState);
@@ -76,9 +76,9 @@ export const Modal: React.FC<Props> = (props: Props) => {
             t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
           );
         });
-        setVisibleTemplates(filtered);
+        dispatch({ type: 'setVisibleTemplateList', payload: filtered });
       } else {
-        setVisibleTemplates(updatedTemplates);
+        dispatch({ type: 'setVisibleTemplateList', payload: updatedTemplates });
       }
     }
   };
@@ -101,9 +101,9 @@ export const Modal: React.FC<Props> = (props: Props) => {
           t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
         );
       });
-      setVisibleTemplates(filtered);
+      dispatch({ type: 'setVisibleTemplateList', payload: filtered });
     } else {
-      setVisibleTemplates(templates);
+      dispatch({ type: 'setVisibleTemplateList', payload: templates });
     }
   }, [modal.searchInput]);
 
@@ -124,7 +124,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
         ></SearchInput>
         <TemplateList
           templates={templates}
-          visibleTemplates={visibleTemplates}
+          visibleTemplates={modal.visibleTemplateList}
           dispatchTemplateId={updateId}
         ></TemplateList>
       </Wrapper>
