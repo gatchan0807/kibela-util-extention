@@ -1,6 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import styled from 'styled-components';
 import { modalReducer, ReducerState } from '../../hooks/modalReducer';
+import { useModal } from '../../hooks/useModal';
 import { setFavoriteTemplateListToChromeStorage } from '../../store/setFavoriteTemplateListToChromeStorage';
 import { Template } from '../../store/types';
 import { SearchInput } from './searchInput';
@@ -43,37 +44,7 @@ type Props = {
 };
 
 export const Modal: React.FC<Props> = (props: Props) => {
-  const initialState: ReducerState = {
-    ids: [],
-    searchInput: '',
-    templateList: props.templates,
-    visibleTemplateList: props.templates,
-  };
-
-  const [modal, dispatch] = useReducer(modalReducer, initialState);
-
-  // memo: 子要素のお気に入りボタン押下にフックして、テンプレート一覧のアップデート
-  const updateId = (id: string) => {
-    dispatch({ type: 'updateFavorite', payload: id });
-    dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-  };
-
-  // memo: Chrome StorageへのIDリストの保存
-  useEffect(() => {
-    setFavoriteTemplateListToChromeStorage({
-      ids: modal.templateList.filter((t) => t.isFavorite).map((t) => t.id),
-    });
-  }, [modal.templateList]);
-
-  // memo: 初期化
-  useEffect(() => {
-    dispatch({ type: 'initializeTemplateList', payload: props.templates });
-  }, []);
-
-  // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
-  useEffect(() => {
-    dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-  }, [modal.searchInput]);
+  const { modal, updateId, setSearchInput } = useModal(props);
 
   return (
     <ModalWrapper>
@@ -86,9 +57,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
         <Title toggleModal={props.toggleModal}></Title>
         <SearchInput
           input={modal.searchInput}
-          setInput={(value) => {
-            dispatch({ type: 'setSearchInput', payload: value });
-          }}
+          setInput={setSearchInput}
         ></SearchInput>
         <TemplateList
           templates={modal.templateList}
