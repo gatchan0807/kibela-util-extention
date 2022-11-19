@@ -10,7 +10,7 @@ export const LinkToTemplateSettings = () => {
       target="_blank"
       rel="noopener noreferrer"
     >
-      テンプレートの追加・削除はこちら
+      テンプレートの追加・編集はこちら
     </Link>
   );
 };
