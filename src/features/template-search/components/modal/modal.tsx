@@ -43,8 +43,6 @@ type Props = {
 };
 
 export const Modal: React.FC<Props> = (props: Props) => {
-  const [templates, setTemplates] = useState(props.templates);
-
   const initialState: ReducerState = {
     ids: [],
     searchInput: '',
@@ -56,6 +54,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
 
   // memo: 子要素のお気に入りボタン押下にフックして、テンプレート一覧のアップデート
   const updateId = (id: string) => {
+    const templates = modal.templateList;
     const index = templates.findIndex((t) => t.id === id);
 
     if (templates[index]) {
@@ -65,30 +64,18 @@ export const Modal: React.FC<Props> = (props: Props) => {
       };
       const updatedTemplates = [...templates];
       updatedTemplates[index] = updated;
-      setTemplates(updatedTemplates);
 
-      const input = modal.searchInput;
-      if (input.length > 0) {
-        const filtered = updatedTemplates.filter((t) => {
-          return (
-            t.title.indexOf(input) !== -1 ||
-            t.title.toUpperCase().indexOf(input.toUpperCase()) !== -1 ||
-            t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
-          );
-        });
-        dispatch({ type: 'setVisibleTemplateList', payload: filtered });
-      } else {
-        dispatch({ type: 'setVisibleTemplateList', payload: updatedTemplates });
-      }
+      dispatch({ type: 'setTemplateList', payload: updatedTemplates });
+      dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
     }
   };
 
   // memo: Chrome StorageへのIDリストの保存
   useEffect(() => {
     setFavoriteTemplateListToChromeStorage({
-      ids: templates.filter((t) => t.isFavorite).map((t) => t.id),
+      ids: modal.templateList.filter((t) => t.isFavorite).map((t) => t.id),
     });
-  }, [templates]);
+  }, [modal.templateList]);
 
   // memo: 初期化
   useEffect(() => {
@@ -116,7 +103,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
           }}
         ></SearchInput>
         <TemplateList
-          templates={templates}
+          templates={modal.templateList}
           visibleTemplates={modal.visibleTemplateList}
           dispatchTemplateId={updateId}
         ></TemplateList>

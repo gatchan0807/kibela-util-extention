@@ -2,6 +2,7 @@ import { Template } from "../store/types";
 
 export type Action =
     { type: 'initializeTemplateList', payload: Template[] } |
+    { type: 'setTemplateList', payload: Template[] } |
     { type: 'setIdList', payload: string[] } |
     { type: 'setSearchInput', payload: string } |
     { type: 'setVisibleTemplateList', payload: Template[] } |
@@ -15,7 +16,7 @@ export type ReducerState = {
 }
 
 export const modalReducer = (state: ReducerState, action: Action): ReducerState => {
-    if (action.type === "initializeTemplateList") {
+    if (action.type === "initializeTemplateList" || action.type === "setTemplateList") {
         return {
             ...state,
             templateList: action.payload
