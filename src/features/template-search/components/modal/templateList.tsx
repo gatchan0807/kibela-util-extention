@@ -20,6 +20,7 @@ const TemplateWrapper = styled.a`
   border-bottom: 1px solid #e6e6e6;
   padding: 1rem;
   display: block;
+  cursor: pointer;
   &:hover {
     background-color: rgba(0, 0, 0, 0.02);
     text-decoration: none;
@@ -36,6 +37,7 @@ const EmptyTemplateWrapper = styled.span`
 const TemplateTitle = styled.span`
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
@@ -44,6 +46,7 @@ const FavoriteButton = styled.button`
   border: 1px solid #e6e6e6;
   background-color: white;
   border-radius: 4px;
+  cursor: pointer;
 
   &:hover {
     background-color: #f1f9ff;
