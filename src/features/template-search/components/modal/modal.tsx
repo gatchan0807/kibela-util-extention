@@ -97,19 +97,7 @@ export const Modal: React.FC<Props> = (props: Props) => {
 
   // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
   useEffect(() => {
-    const input = modal.searchInput;
-    if (input.length > 0) {
-      const filtered = templates.filter((t) => {
-        return (
-          t.title.indexOf(input) !== -1 ||
-          t.title.toUpperCase().indexOf(input.toUpperCase()) !== -1 ||
-          t.title.toLowerCase().indexOf(input.toLowerCase()) !== -1
-        );
-      });
-      dispatch({ type: 'setVisibleTemplateList', payload: filtered });
-    } else {
-      dispatch({ type: 'setVisibleTemplateList', payload: templates });
-    }
+    dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
   }, [modal.searchInput]);
 
   return (

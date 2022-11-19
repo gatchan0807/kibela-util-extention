@@ -4,7 +4,8 @@ export type Action =
     { type: 'initializeTemplateList', payload: Template[] } |
     { type: 'setIdList', payload: string[] } |
     { type: 'setSearchInput', payload: string } |
-    { type: 'setVisibleTemplateList', payload: Template[] }
+    { type: 'setVisibleTemplateList', payload: Template[] } |
+    { type: 'filterTemplateList', payload: string }
 
 export type ReducerState = {
     templateList: Template[],
@@ -38,5 +39,30 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
             visibleTemplateList: action.payload
         }
     }
+    if (action.type === "filterTemplateList") {
+        return filterTemplateList({ state, condition: action.payload })
+    }
     return state;
 };
+
+const filterTemplateList = ({ state, condition }: { state: ReducerState, condition: string }): ReducerState => {
+    if (condition.length <= 0) {
+        return {
+            ...state,
+            visibleTemplateList: state.templateList
+        }
+    }
+
+    const filtered = state.templateList.filter((t) => {
+        return (
+            t.title.indexOf(condition) !== -1 ||
+            t.title.toUpperCase().indexOf(condition.toUpperCase()) !== -1 ||
+            t.title.toLowerCase().indexOf(condition.toLowerCase()) !== -1
+        );
+    });
+
+    return {
+        ...state,
+        visibleTemplateList: filtered
+    }
+}
