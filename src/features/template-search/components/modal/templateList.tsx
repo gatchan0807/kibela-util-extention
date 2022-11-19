@@ -36,6 +36,7 @@ const FavoriteButton = styled.button`
   margin: 0 0 0 auto;
   border: 1px solid #e6e6e6;
   background-color: white;
+  border-radius: 4px;
 
   &:hover {
     background-color: #f1f9ff;
