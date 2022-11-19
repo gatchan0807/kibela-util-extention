@@ -3,7 +3,7 @@ import { Template } from "../store/types";
 export type Action =
     { type: 'initializeTemplateList', payload: Template[] } |
     { type: 'setTemplateList', payload: Template[] } |
-    { type: 'setIdList', payload: string[] } |
+    { type: 'setFilterByFavorite', payload: boolean } |
     { type: 'setSearchInput', payload: string } |
     { type: 'setVisibleTemplateList', payload: Template[] } |
     { type: 'filterTemplateList', payload: string } |
@@ -12,7 +12,7 @@ export type Action =
 export type ReducerState = {
     templateList: Template[],
     visibleTemplateList: Template[],
-    ids: string[],
+    isFilterByFavorite: boolean,
     searchInput: string,
 }
 
@@ -23,10 +23,10 @@ export const modalReducer = (state: ReducerState, action: Action): ReducerState 
             templateList: action.payload
         }
     }
-    if (action.type === "setIdList") {
+    if (action.type === "setFilterByFavorite") {
         return {
             ...state,
-            ids: action.payload,
+            isFilterByFavorite: action.payload,
         }
     }
     if (action.type === "setSearchInput") {

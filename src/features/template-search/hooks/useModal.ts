@@ -10,7 +10,7 @@ type Props = {
 
 export const useModal = (props: Props) => {
     const initialState: ReducerState = {
-        ids: [],
+        isFilterByFavorite: false,
         searchInput: '',
         templateList: props.templates,
         visibleTemplateList: props.templates,
@@ -26,6 +26,10 @@ export const useModal = (props: Props) => {
 
     const setSearchInput = (value: string) => {
         dispatch({ type: 'setSearchInput', payload: value });
+    }
+
+    const toggleFavoriteFilter = (value: boolean) => {
+        dispatch({ type: "setFilterByFavorite", payload: value })
     }
 
     // memo: 初期化
@@ -49,5 +53,6 @@ export const useModal = (props: Props) => {
         modal,
         updateId,
         setSearchInput,
+        toggleFavoriteFilter,
     }
 }
