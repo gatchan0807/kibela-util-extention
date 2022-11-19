@@ -1,7 +1,7 @@
-import { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import { setFavoriteTemplateListToChromeStorage } from "../store/setFavoriteTemplateListToChromeStorage";
 import { Template } from "../store/types";
-import { modalReducer, ReducerState } from "./modalReducer";
+import { Action, modalReducer, ReducerState } from "./modalReducer";
 
 type Props = {
     templates: Template[];
@@ -16,22 +16,8 @@ export const useModal = (props: Props) => {
         visibleTemplateList: props.templates,
     };
 
-    const [modal, dispatch] = useReducer(modalReducer, initialState);
-
-    // memo: 子要素のお気に入りボタン押下にフックして、テンプレート一覧のアップデート
-    const updateId = (id: string) => {
-        dispatch({ type: 'updateFavorite', payload: id });
-        dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-        dispatch({ type: "filterTemplateListByFavorite", payload: modal.isFilterByFavorite })
-    };
-
-    const setSearchInput = (value: string) => {
-        dispatch({ type: 'setSearchInput', payload: value });
-    }
-
-    const toggleFavoriteFilter = (value: boolean) => {
-        dispatch({ type: "setFilterByFavorite", payload: value })
-    }
+    const [property, dispatch] = useReducer(modalReducer, initialState);
+    const handlers = createHandlers(property, dispatch)
 
     // memo: 初期化
     useEffect(() => {
@@ -40,21 +26,41 @@ export const useModal = (props: Props) => {
 
     // memo: 検索ワードに基づいて表示リストのフィルタリング + アップデート
     useEffect(() => {
-        dispatch({ type: 'filterTemplateList', payload: modal.searchInput });
-        dispatch({ type: "filterTemplateListByFavorite", payload: modal.isFilterByFavorite })
-    }, [modal.searchInput, modal.isFilterByFavorite]);
+        dispatch({ type: 'filterTemplateList', payload: property.searchInput });
+        dispatch({ type: "filterTemplateListByFavorite", payload: property.isFilterByFavorite })
+    }, [property.searchInput, property.isFilterByFavorite]);
 
     // memo: Chrome StorageへのIDリストの保存
     useEffect(() => {
         setFavoriteTemplateListToChromeStorage({
-            ids: modal.templateList.filter((t) => t.isFavorite).map((t) => t.id),
+            ids: property.templateList.filter((t) => t.isFavorite).map((t) => t.id),
         });
-    }, [modal.templateList]);
+    }, [property.templateList]);
 
     return {
-        modal,
-        updateId,
+        property,
+        handlers,
+    }
+}
+
+const createHandlers = (property: ReducerState, dispatch: React.Dispatch<Action>) => {
+    const setSearchInput = (value: string) => {
+        dispatch({ type: 'setSearchInput', payload: value });
+    }
+
+    const toggleFavorite = (id: string) => {
+        dispatch({ type: 'updateFavorite', payload: id });
+        dispatch({ type: 'filterTemplateList', payload: property.searchInput });
+        dispatch({ type: "filterTemplateListByFavorite", payload: property.isFilterByFavorite })
+    };
+
+    const toggleFavoriteFilter = (value: boolean) => {
+        dispatch({ type: "setFilterByFavorite", payload: value })
+    }
+
+    return {
+        toggleFavorite,
         setSearchInput,
-        toggleFavoriteFilter,
+        toggleFavoriteFilter
     }
 }

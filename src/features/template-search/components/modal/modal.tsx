@@ -42,7 +42,7 @@ type Props = {
 };
 
 export const Modal: React.FC<Props> = (props: Props) => {
-  const { modal, updateId, setSearchInput, toggleFavoriteFilter } = useModal(props);
+  const { property, handlers } = useModal(props);
 
   return (
     <ModalWrapper>
@@ -54,15 +54,15 @@ export const Modal: React.FC<Props> = (props: Props) => {
       <Wrapper>
         <Title toggleModal={props.toggleModal}></Title>
         <SearchInput
-          input={modal.searchInput}
-          isFilterByFavorite={modal.isFilterByFavorite}
-          setInput={setSearchInput}
-          toggleFavoriteFilter={toggleFavoriteFilter}
+          input={property.searchInput}
+          isFilterByFavorite={property.isFilterByFavorite}
+          setInput={handlers.setSearchInput}
+          toggleFavoriteFilter={handlers.toggleFavoriteFilter}
         ></SearchInput>
         <TemplateList
-          templates={modal.templateList}
-          visibleTemplates={modal.visibleTemplateList}
-          dispatchTemplateId={updateId}
+          templates={property.templateList}
+          visibleTemplates={property.visibleTemplateList}
+          dispatchTemplateId={handlers.toggleFavorite}
         ></TemplateList>
       </Wrapper>
     </ModalWrapper>
