@@ -1,8 +1,6 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { modalReducer, ReducerState } from '../../hooks/modalReducer';
 import { useModal } from '../../hooks/useModal';
-import { setFavoriteTemplateListToChromeStorage } from '../../store/setFavoriteTemplateListToChromeStorage';
 import { Template } from '../../store/types';
 import { SearchInput } from './searchInput';
 import { TemplateList } from './templateList';
