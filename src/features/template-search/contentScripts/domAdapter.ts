@@ -1,18 +1,11 @@
 import { MountModal } from "../components/modal"
 import { getFavoriteTemplateList } from "../store/getFavoriteTemplateList"
-import { Template } from "./setTemplateSearch"
+import { DOMElement, Template } from "../store/types"
 import { sha256 } from "./sha256"
 
 export const SELECTOR = {
     triggerButton: "div.headerNavigation-postButton a.is-button-withDropdown-rightPart",
     templateContainer: "div.postButtonDropdownContainer ul.postButtonDropdown-list:nth-child(2) > li > a",
-}
-
-export type DOMElement = {
-    title: string,
-    href: string,
-    index: number,
-    rawElement: Element,
 }
 
 export const convertDomElements = (elementList: NodeListOf<Element>): DOMElement[] => {

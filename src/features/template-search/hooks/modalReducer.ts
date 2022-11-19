@@ -1,9 +1,4 @@
-import { DOMElement } from "../contentScripts/domAdapter"
-
-export type Template = DOMElement & {
-    isFavorite: boolean,
-    id: string
-}
+import { Template } from "../store/types";
 
 export type Action =
     { type: 'setTemplateList', payload: Template[] } |

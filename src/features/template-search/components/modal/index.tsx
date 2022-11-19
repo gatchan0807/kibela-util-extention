@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Template } from '../../contentScripts/setTemplateSearch';
+import { Template } from '../../store/types';
 import { Modal } from './modal';
 
 export const MountModal = (templates: Template[]) => {

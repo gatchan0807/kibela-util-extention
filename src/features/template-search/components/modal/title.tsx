@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Template } from '../../contentScripts/setTemplateSearch';
+import { Template } from '../../store/types';
 
 const CloseButton = styled.button`
   color: #888888;

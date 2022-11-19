@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Template } from '../../contentScripts/setTemplateSearch';
 import { setFavoriteTemplateListToChromeStorage } from '../../store/setFavoriteTemplateListToChromeStorage';
+import { Template } from '../../store/types';
 import { SearchInput } from './searchInput';
 import { TemplateList } from './templateList';
 import { Title } from './title';
