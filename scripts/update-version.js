@@ -46,8 +46,6 @@ const incrementVersion = (currentVersion, incrementTarget) => {
     fs.writeFileSync(MANIFEST_JSON_PATH, JSON.stringify(manifestJson, null, 2));
 
     await execAsync('yarn package:chrome');
-    await execAsync(`git tag ${newVersion}`);
-    await execAsync(`git push origin ${newVersion}`);
   } else {
     console.error("[ERROR] Can't find files. Check running directory.");
     console.error(`${PACKAGE_JSON_PATH}:`, fs.existsSync(PACKAGE_JSON_PATH));

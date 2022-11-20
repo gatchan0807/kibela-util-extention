@@ -15,7 +15,7 @@
     "package:chrome": "yarn clean:chrome && yarn build:chrome && zip -r packaged/dist-chrome.zip dist-chrome",
     "test": "jest",
     "test:ci": "jest --ci --runInBand",
-    "create:tag": "node ./scripts/create-new-version-tag.js"
+    "update:version": "node ./scripts/update-version.js"
   },
   "dependencies": {
     "@types/chrome": "^0.0.178",

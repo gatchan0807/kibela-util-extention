@@ -1,0 +1,41 @@
+name: Create Tag
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+          fetch-depth: 0
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "16.x"
+      - uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}
+      - if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --pure-lockfile --ignore-optional --network-concurrency 1
+      - run: yarn update:version --increment patch
+      - if: "startsWith(github.event.head_commit.message, '[minor]')"
+        run: yarn update:version --increment minor
+      - if: "startsWith(github.event.head_commit.message, '[major]')"
+        run: yarn update:version --increment major
+      - env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          VERSION=`node -pe "require('./package.json').version"`
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "github-actions+${GITHUB_ACTOR}@users.noreply.github.com"
+          git add .
+          git commit -m "chore(release): v${VERSION}"
+          git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git master
+          git tag v$VERSION
+          git push https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git v$VERSION
