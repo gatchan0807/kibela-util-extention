@@ -12,6 +12,7 @@
 2. 機能を実装する
 3. PRを作成する
 4. PR作成時に実行されるCIをチェックし、全てGreenであればマージする
+    - マージ時のメッセージに `[minor]` / `[major]` と先頭に追記すると、その指定のセマンティクスでアップデートされる
 5. マージ後、CIで自動的に `yarn package:chrome` が実行され、 `packaged/dist-chrome.zip` が作成される
 
 # How to Release

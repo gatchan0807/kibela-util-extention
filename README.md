@@ -68,4 +68,4 @@ Edit `build.ts` and configure [esbuild](https://esbuild.github.io/).
 
 ## How To Release
 
-[https://github.com/gatchan0807/kibela-util-extention/blob/master/README.md](https://github.com/gatchan0807/kibela-util-extention/blob/master/README.md)
+**[リリース方法について](https://github.com/gatchan0807/kibela-util-extention/blob/master/RELEASE.md)**
