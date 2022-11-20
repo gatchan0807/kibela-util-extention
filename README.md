@@ -5,6 +5,7 @@
 ## 現在含まれる機能
 
 - 記事内のリンクをデフォルトで別タブで開く機能
+- 記事テンプレートを検索・お気に入りする機能
 
 ## Chrome Store
 
@@ -64,3 +65,7 @@ yarn run package:chrome
 ### Add background_scripts, etc.
 
 Edit `build.ts` and configure [esbuild](https://esbuild.github.io/).
+
+## How To Release
+
+**[リリース方法について](https://github.com/gatchan0807/kibela-util-extention/blob/master/RELEASE.md)**
