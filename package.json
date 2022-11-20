@@ -14,7 +14,8 @@
     "package:firefox": "echo \"=== つかえないよ！！===\"; web-ext build -s dist-firefox --overwrite-dest",
     "package:chrome": "yarn clean:chrome && yarn build:chrome && zip -r packaged/dist-chrome.zip dist-chrome",
     "test": "jest",
-    "test:ci": "jest --ci --runInBand"
+    "test:ci": "jest --ci --runInBand",
+    "create:tag": "node ./scripts/create-new-version-tag.js"
   },
   "dependencies": {
     "@types/chrome": "^0.0.178",
