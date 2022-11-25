@@ -189,7 +189,24 @@ describe('template-search > reducer > お気に入り関連', () => {
         expect(actual).toEqual(expected)
     })
 
-    test("テンプレート一覧データのお気に入り有無を更新できる", () => {
+    test("お気に入りのみフィルターがOFFの場合はすべてのテンプレート一覧データが表示される", () => {
+        const initialState = {
+            ...defaultState,
+            templateList: TemplateList,
+            visibleTemplateList: TemplateList,
+        }
+
+        const expected = {
+            ...defaultState,
+            templateList: TemplateList,
+            visibleTemplateList: TemplateList,
+        }
+        
+        const actual = modalReducer(initialState, { type: "filterTemplateListByFavorite", payload: false })
+        expect(actual).toEqual(expected)
+    })
+
+    test("テンプレート一覧データのお気に入り状態を更新できる", () => {
         const initialState = {
             ...defaultState,
             templateList: TemplateList
@@ -206,6 +223,26 @@ describe('template-search > reducer > お気に入り関連', () => {
         }
 
         const actual = modalReducer(initialState, { type: "updateFavorite", payload: "workspace-xxxxx3" })
+        expect(actual).toEqual(expected)
+    })
+
+    test("存在しないIDを指定した場合はテンプレート一覧データのお気に入り状態を更新しない", () => {
+        const initialState = {
+            ...defaultState,
+            templateList: TemplateList
+        }
+
+        const expectedTemplateList = [...TemplateList]
+        expectedTemplateList[2] = {
+            title: "テンプレート3", href: "/3", id: "workspace-xxxxx3", isFavorite: false, index: 3, rawElement: {} as Element
+        }
+
+        const expected = {
+            ...defaultState,
+            templateList: expectedTemplateList
+        }
+
+        const actual = modalReducer(initialState, { type: "updateFavorite", payload: "workspace-abcde" })
         expect(actual).toEqual(expected)
     })
 })
